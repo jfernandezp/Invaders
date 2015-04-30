@@ -240,7 +240,8 @@ public class InvaderPanel extends JPanel implements ActionListener {
 	}
 
 	private void Ataques(){
-		//Random Aleatorio = new Random();
+		Random r = new Random();
+		int aleatorio = r.nextInt(6) + 1;
 		
 	}
 }
