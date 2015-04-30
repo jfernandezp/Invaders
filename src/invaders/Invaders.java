@@ -1,9 +1,6 @@
 package invaders;
 
 import java.awt.BorderLayout;
-import java.awt.LayoutManager;
-import java.awt.Panel;
-
 import javax.swing.JFrame;
 
 public class Invaders {
