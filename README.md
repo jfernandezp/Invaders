@@ -1,5 +1,6 @@
 # Invaders
 Juego sencillo de Invasores hecho en java en un entorno educativo.
+<<<<<<< HEAD
 Versión en desarrollo...
 
 ## Requisitos
@@ -20,3 +21,7 @@ A continuación se abre la ventana de juego.
 Empezar a jugar/Pausar/Iniciar juego: teclas "Pausa Inter" o "P"
 Mover tu defensor a la izquierda: fecha a la izquierda.
 Mover tu defensor a la derecha: flecha a la derecha.
+=======
+
+Para cualquier cuestión, puede contactar: https://jfernandezpe.wordpress.com/
+>>>>>>> 9f667986311ad6b96341ca85c7361810e0cbd674
