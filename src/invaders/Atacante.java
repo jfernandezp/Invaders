@@ -6,20 +6,26 @@ public class Atacante  {
 	
 	private int posy;
 	private int posx;
-	private int x;
+	private int tx;
+	private int ty;
 	private boolean dibujar = true;
 	public int posxRelativa = 3; 
+	private static int numAtacantes = 0;
 	
     private InvaderPanel ip;
-    public Atacante(InvaderPanel ip){
-         
-    }
-    public Atacante( InvaderPanel invaderPanel, boolean dibujari, Graphics g, int posxi, int posyi, int xi, int y) {
-        posy = posyi;
-        posx = posxi;
-        x = xi;
-        dibujar = dibujari;
+    
+    public Atacante( InvaderPanel invaderPanel, boolean dibujari, Graphics g, int posx, int posy, int tx, int ty) {
+        this.posy = posy;
+        this.posx = posx;
+        this.tx = tx;
+        this.ty = ty;
+        this.dibujar = dibujari;
+        pintar(invaderPanel, g); 
         
+        siDibujar();
+    }
+    
+    public void pintar(InvaderPanel invaderPanel, Graphics g){
     	if (dibujar) {
             this.ip = invaderPanel;
             if (posy > ip.limite){
@@ -27,26 +33,37 @@ public class Atacante  {
                 ip.ataquey = ip.ataqueiy;
                 posy =ip.ataqueiy;
             }
-            g.fillRect(posx,posy,x,y);
+            g.fillRect(posx,posy,tx,ty);
         }
     }
     
+    public void setPosx(int data){
+    	posx = data;
+    }
+    
+    public void setPosy(int data){
+    	posy = data;
+    }
     public int getPosY(){
-    	int t = posy;
-    	return t;
+    	return posy;
     }
     
     public int getPosX(){
-    	int t = posx;
-    	return t;
+    	return posx;
     }
     
-    public int getx(){
-    	int t= x;
-    	return t;
+    public int gettx(){
+    	return tx;
     }
+    
+    public void siDibujar(){
+    	dibujar = true;
+    	numAtacantes++;
+    }
+    
     public  void noDibujar(){
     	dibujar = false;
+    	numAtacantes--;
     }
     public boolean getDibujar(){
     	return dibujar;
@@ -61,11 +78,8 @@ public class Atacante  {
     public Integer getPosxRelativa(){
     	return posxRelativa;
     }
-    /*
-    @Override
-    public int compareTo(Atacante o) {
-       String a=new String(String.valueOf(this.getPosxRelativa()));
-       String b=new String(String.valueOf(o.getPosxRelativa()));
-       return a.compareTo(b);
-   }*/
+
+    public static int getNumAtacantes(){
+    	return numAtacantes;
+    }    
 }
