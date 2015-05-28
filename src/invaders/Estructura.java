@@ -13,7 +13,7 @@ public class Estructura {
         private static int maxPosY = 0;
         private static int minPosY = -1;
         
-        public Estructura(Graphics g, int posx, int posy, int tamx, int tamy, int dibujoj, int dibujoy){
+        public Estructura(Graphics g, int posx, int posy, int tamx, int tamy, int dibujoy, int dibujox){
             this.posx = posx;
             this.posy = posy;
             this.tamx = tamx;

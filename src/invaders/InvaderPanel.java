@@ -57,18 +57,12 @@ public class InvaderPanel extends JPanel implements ActionListener {
     int ventanatx;
     int ventanaty;
     int margenVentana = 5;
-     
-      
-   // int velocidad = 10; //20;
-   // boolean pausa = true; //false;
-    //boolean finJuego = false;
     
-    //int tmpAtaqueCercano = 15;
-   // int tmpAtaqueEstructura = 30;
-         
     ArrayList<Disparo> disparos = new ArrayList<Disparo>();
     ArrayList<Disparo> disparosAtacantes = new ArrayList<Disparo>();
     ArrayList<Estructura> listaEstructuras = new ArrayList<Estructura>();
+    
+    private static Random r = new Random();
       
     public InvaderPanel(final int ventanatx, int ventanaty, int veloc, int ataqCercano, int ataqAzar){
     	
@@ -84,26 +78,18 @@ public class InvaderPanel extends JPanel implements ActionListener {
         this.ventanaty = ventanaty;
            
         posxDD = defensax + (defensatx / 2) - (xDD / 2);
-        //posyDD = defensay - yDD *12 - 20;
         posyDD = defensay - yDD -4;
            
         setBackground(Color.BLACK);
-        /*
-        for (int i = 0; i < 12; i++){
-            listaColumnas[i] = 0;
-        }*/
-          
-       // ataqueix = ataqueix -2 ;
+      
    
         /******************************************/
         KeyListener listener = new KeyListener(){
             @Override
             public void keyTyped(KeyEvent e) {
-//              System.out.println("+"+e.getKeyCode()+"+");
             }
             @Override
             public void keyPressed(KeyEvent e) {
-                //System.out.println("+"+e.getKeyCode()+"+");
                 int nPosicion;
                 if (e.getKeyCode() == 37){
                     nPosicion = defensax - velocidadDefensa;
@@ -131,7 +117,6 @@ public class InvaderPanel extends JPanel implements ActionListener {
    
             @Override
             public void keyReleased(KeyEvent e) {
-                //System.out.println("_"+e.getKeyCode()+"_");
                 if (e.getKeyCode() == 32){
                     int posx = defensax + defensatx/2 - xDD / 2;
                     disparos.add(new Disparo(true, posx, posyDD, xDD, yDD));
@@ -179,12 +164,11 @@ public class InvaderPanel extends JPanel implements ActionListener {
     		for (int i = 0; i < listaAtacantes.length;i++){
     			listaAtacantes[i].siDibujar();
     			disparos.clear();
-    			estado.aumentarNivel();
-    			
     			ataquey = ataqueiy;
     			ataquex = ataqueix;
-    			estado.ganaVida(2);
     		}
+			estado.aumentarNivel();
+			estado.ganaVida(2);
     	}
     }
   
@@ -196,10 +180,6 @@ public class InvaderPanel extends JPanel implements ActionListener {
         Font f = new  Font ("SansSerif", Font.BOLD, 12); 
         g2.setFont(f);
         g2.drawString("Tienes "+estado.getVidas()+" vidas, "+estado.getPuntos()+" puntos y estás en el "+estado.getNivel()+"º nivel",  30,  20);
-        
-       /* g2 = g;
-        FontRenderContext frc=g2.getFontRenderContext();
-        TextLayout  tl= new TextLayout("Dialog",  new  Font (“SansSerif”, Font.BOLD, 12),frc); */
         
         pintarEstructuras(g);
            
@@ -237,11 +217,11 @@ public class InvaderPanel extends JPanel implements ActionListener {
 	        for (int i = 0; i < 4; i++){
 	            int bloqueEstructura = (bloque * (i+1)) -  (tex * estructura[0].length / 2);
 	            eposy = eposyi;
-	            for (int j = 0; j < estructura.length; j++){
+	            for (int y = 0; y < estructura.length; y++){
 	                eposx = bloqueEstructura;
-	                for (int k = 0; k < estructura[j].length; k++){
-	                    if (estructura[j][k]){
-	                        listaEstructuras.add(new Estructura(g, eposx, eposy, tex, tey, j, k));
+	                for (int x = 0; x < estructura[y].length; x++){
+	                    if (estructura[y][x]){
+	                        listaEstructuras.add(new Estructura(g, eposx, eposy, tex, tey, y, x));
 	                    }
 	                    eposx = eposx+25;
 	                }
@@ -336,7 +316,6 @@ public class InvaderPanel extends JPanel implements ActionListener {
       
     private void comprobarColisionesDisparosAtaque(){
         //es el mismo codigo con escasas variaciones de this.comprobarColisionesDisparosDefensa();
-//      System.out.println(disparosAtacantes.size());
         Iterator<Disparo> iDisparos = disparosAtacantes.iterator();
         while(iDisparos.hasNext()){
             boolean hayColision;
@@ -491,52 +470,75 @@ public class InvaderPanel extends JPanel implements ActionListener {
     private ArrayList<Atacante> disparoMasCercano(
             ArrayList<Atacante> candidatosDisparos) {
         //Disparo sobre el más cercano al jugador
-        int posxRelativaMin = -1;
-        int puntero = 0;
-        for (int i = 0; i < candidatosDisparos.size(); i++){
-            candidatosDisparos.get(i).posxRelativa(defensax);
-            //System.out.println(candidatosDisparos.get(i).getPosxRelativa());
-            if ((posxRelativaMin > candidatosDisparos.get(i).getPosxRelativa()) ||( posxRelativaMin == -1) ){
-                posxRelativaMin = candidatosDisparos.get(i).getPosxRelativa();
-                puntero = i;
-                //System.out.println("es mas cerca el "+puntero+" con valor "+posxRelativaMin);
-            } 
-        }
+        
+    	int puntero = obtenerQuienDispara(candidatosDisparos,defensax);
         //creo el disparo
-        //System.out.println(disparosAtacantes.size());
         disparosAtacantes.add(addDisparoAtacante(candidatosDisparos.get(puntero)));
         candidatosDisparos.remove(puntero);
-        //System.out.println(disparosAtacantes.size());
         return candidatosDisparos;
     }
   
     private ArrayList<Atacante> disparoEstructura(
             ArrayList<Atacante> candidatosDisparos) {
-    	/*
-    	Random r = new Random();
+    	//Obtener estructuras;
+    	
+    	ArrayList<Estructura> candidatosEstructuras = new ArrayList<Estructura>();
+    	Iterator<Estructura> iEstructuras = listaEstructuras.iterator();
+    	while (iEstructuras.hasNext()){
+    		Estructura estructura = iEstructuras.next();
+    		if (estructura.getDibujar()){
+    			candidatosEstructuras.add(estructura);
+    		}
+    	}
+    	
     	try {
-    		int f = r.nextInt(candidatosDisparos.size())
+    		int f = r.nextInt(candidatosEstructuras.size());
+    		disparosAtacantes.add(addDisparoAtacante(candidatosDisparos.get(f)));
+            candidatosDisparos.remove(f);
     	} catch (Exception e){
     		//
-    	}*/
+    	}
+    	
+    	//disparo más cercana sobre la estructura
+    	int puntoDisparo = defensax; 
+    	int puntero = obtenerQuienDispara(candidatosDisparos,puntoDisparo);
+
+        //creo el disparo
+        disparosAtacantes.add(addDisparoAtacante(candidatosDisparos.get(puntero)));
+        candidatosDisparos.remove(puntero);
         return candidatosDisparos;
     }
   
     private ArrayList<Atacante> disparoAzar(
         ArrayList<Atacante> candidatosDisparos) {
-        Random r = new Random();
+        
         try {
             int f = r.nextInt(candidatosDisparos.size());
  
             disparosAtacantes.add(addDisparoAtacante(candidatosDisparos.get(f)));
             candidatosDisparos.remove(f);
              
-        } catch (IllegalArgumentException e){
+        } catch (Exception e){
             //
         }
         return candidatosDisparos;
     }
    
+    private int obtenerQuienDispara(ArrayList<Atacante> candidatosDisparos, int puntoDisparo){
+    	//Encuentra el más cercano a un punto.
+    	int posxRelativaMin = -1;
+        int puntero = 0;
+        for (int i = 0; i < candidatosDisparos.size(); i++){
+            candidatosDisparos.get(i).posxRelativa(puntoDisparo);
+            if ((posxRelativaMin > candidatosDisparos.get(i).getPosxRelativa()) ||( posxRelativaMin == -1) ){
+                posxRelativaMin = candidatosDisparos.get(i).getPosxRelativa();
+                puntero = i;
+            } 
+        }
+    	
+    	return puntero;
+    }
+    
     private Disparo addDisparoAtacante(Atacante atacante) {
         int xDisparo = 15;
         int yDisparo = 15;
@@ -544,4 +546,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
   
         return disparo;
     }
+    
+    
+    
 }

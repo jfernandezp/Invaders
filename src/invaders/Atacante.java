@@ -73,7 +73,6 @@ public class Atacante  {
     	if (posxRelativa < 0){
     		posxRelativa = posxRelativa * -1;
     	}
-    	//return posxRelativa;
     }
     public Integer getPosxRelativa(){
     	return posxRelativa;

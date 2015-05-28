@@ -28,7 +28,6 @@ public class Estado {
 	}
 	
 	Estado(int velocidad, int disparoCercano, int disparoEstructura, int disparoAzar){
-		//velocidad = 10;
 		puntos = 0;
 		nivel = 1;
 		vidas = 3;
@@ -70,14 +69,7 @@ public class Estado {
 		velocidad = (int) (velocidad * ponderadoNivelA);
 		disparoCercano = (int) (disparoCercano * ponderadoNivelR) ; 
 		disparoEstructura = (int) (disparoEstructura * ponderadoNivelR) ;
-		disparoAzar = (int) (disparoAzar * ponderadoNivelR) ;
-		/*
-		System.out.println(velocidad);
-		System.out.println(disparoCercano);
-		System.out.println(disparoEstructura);
-
-		System.out.println(disparoAzar);*/
-		
+		disparoAzar = (int) (disparoAzar * ponderadoNivelR) ;		
 	}
 	
 	public void ganaVida(int data){
