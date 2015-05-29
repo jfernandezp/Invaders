@@ -44,7 +44,8 @@ public class InvaderPanel extends JPanel implements ActionListener {
     private int desplazamientoyFila = 30;
     int ciclos = 0;
     int ciclosDisparos = 0;
-    int limite = (desplazamientoyFila * 12)  + ataqueiy;
+    int limiteiy = (desplazamientoyFila * 12)  + ataqueiy;
+    int limitey = limiteiy;
     private Atacante listaAtacantes[] = new Atacante[60];
 
     Graphics g2;
@@ -64,9 +65,9 @@ public class InvaderPanel extends JPanel implements ActionListener {
     
     private static Random r = new Random();
       
-    public InvaderPanel(final int ventanatx, int ventanaty, int veloc, int ataqCercano, int ataqAzar){
+    public InvaderPanel(final int ventanatx, int ventanaty, int veloc, int ataqCercano, int ataqEstruc, int ataqAzar){
     	
-    	estado = new Estado(veloc, ataqCercano, ataqAzar, ataqAzar);
+    	estado = new Estado(veloc, ataqCercano, ataqEstruc, ataqAzar,limitey);
     	estado.setPausa(true);
     	    	
         defensatx=40;
@@ -159,6 +160,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
         repaint();  
     }
     
+    //Comprueba el estado del juego;
     public void comprobarEstado(){
     	if(Atacante.getNumAtacantes() < 1) {
     		for (int i = 0; i < listaAtacantes.length;i++){
@@ -169,6 +171,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
     		}
 			estado.aumentarNivel();
 			estado.ganaVida(2);
+			limitey = Estructura.getMinPosY();
     	}
     }
   
@@ -176,10 +179,8 @@ public class InvaderPanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         g.setColor(Color.WHITE);
         
-        Graphics2D g2=(Graphics2D) g; 
-        Font f = new  Font ("SansSerif", Font.BOLD, 12); 
-        g2.setFont(f);
-        g2.drawString("Tienes "+estado.getVidas()+" vidas, "+estado.getPuntos()+" puntos y estás en el "+estado.getNivel()+"º nivel",  30,  20);
+        Graphics2D g2=(Graphics2D) g;
+        pintarLetras(g2);
         
         pintarEstructuras(g);
            
@@ -193,6 +194,12 @@ public class InvaderPanel extends JPanel implements ActionListener {
                
      }
   
+    private void pintarLetras(Graphics2D g2){
+    	Font f = new  Font ("SansSerif", Font.BOLD, 12); 
+        g2.setFont(f);
+        g2.drawString("Tienes "+estado.getVidas()+" vidas, "+estado.getPuntos()+" puntos y estás en el "+estado.getNivel()+"º nivel",  30,  20);
+    }
+    
     private void pintarEstructuras(Graphics g) {
     	if (listaEstructuras.isEmpty()){ //Si no se ha pintado estructuras
 	        boolean [][] estructura = new boolean[3][3];
@@ -298,8 +305,6 @@ public class InvaderPanel extends JPanel implements ActionListener {
         if (ciclos>= nciclos){
             ataquey += desplazamientoyFila;
             ciclos=0;
-            /**** prueba, quitaaaaaaaaaar */
-          //  estado.aumentarNivel();
         }
     }
       
@@ -311,10 +316,11 @@ public class InvaderPanel extends JPanel implements ActionListener {
             velocidadAtaque = velocidadAtaque * -1;
             ciclos++;
         }
-            ataquex += velocidadAtaque;
+        ataquex += velocidadAtaque;
     }
       
     private void comprobarColisionesDisparosAtaque(){
+    	boolean tocanDefensa = false;
         //es el mismo codigo con escasas variaciones de this.comprobarColisionesDisparosDefensa();
         Iterator<Disparo> iDisparos = disparosAtacantes.iterator();
         while(iDisparos.hasNext()){
@@ -327,8 +333,8 @@ public class InvaderPanel extends JPanel implements ActionListener {
             } else {
                 disparo.mover();
                 
-                
-                if (disparo.getposY() >= listaEstructuras.get(0).getMinPosY()){
+                //Si el disparo ha llegado a la posición de la estructura
+                if (disparo.getposY() >= Estructura.getMinPosY()){
                 	Iterator<Estructura> iEstructuras = listaEstructuras.iterator();
                 	while (iEstructuras.hasNext()){
                 		Estructura estructura = iEstructuras.next();
@@ -341,11 +347,13 @@ public class InvaderPanel extends JPanel implements ActionListener {
                 		}
                 	}
                 }
+                //Miramos si colisiona con el defensor.
                 if (!eliminarElemento){
 	                if ((disparo.getposY() >= defensay) && ((disparo.getposY() <= defensay + defensaty)) ) {
 	                    hayColision = disparo.compruebaColisionX(defensax,defensatx,true);
 	                    if (hayColision){
 	                        estado.pierdeVida(1);
+	                        tocanDefensa = true;
 	                        eliminarElemento = true;	                        
 	                    }
 	                }
@@ -355,6 +363,10 @@ public class InvaderPanel extends JPanel implements ActionListener {
                 	iDisparos.remove();
                 }
             }
+        }
+        if (tocanDefensa){
+        	disparosAtacantes.clear();
+        	disparos.clear();
         }
     }
       
@@ -366,12 +378,16 @@ public class InvaderPanel extends JPanel implements ActionListener {
             boolean hayColisionEstructura;
             boolean eliminarElemento = false;
             Disparo disparo = iDisparos.next();
+            
+            //Si ha sobrepasado el límite superior.
             if (disparo.getposY() <= 0 ) {
                 iDisparos.remove();
             } else {
+            	//Se mueve
                 disparo.mover();
                 
-                listaEstructuras.get(0);
+                //Comprobamos si hay colisión con estructuras.
+                listaEstructuras.get(0); //aseguramos que esté en 0.                
 				if (disparo.getposY() <= Estructura.getMaxPosY()){
 	                Iterator<Estructura> iEstructuras = listaEstructuras.iterator();
 	                while (iEstructuras.hasNext() && !eliminarElemento){
@@ -389,6 +405,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
 	                }
                 }
                 
+				//Comprobamos si hay colisión con los atacantes.
                 if (!eliminarElemento){
 	                for (int i = 0; i < listaAtacantes.length; i = i + 12){
 	                    if (listaAtacantes[i].getPosY() >= disparo.getposY()){
@@ -420,7 +437,8 @@ public class InvaderPanel extends JPanel implements ActionListener {
         int cicloMasCercano = estado.getDisparoCercano();
         int cicloEstructura = estado.getDisparoEstructura();
         int cicloAleatorio = estado.getDisparoAzar();
-        int cicloFin = cicloAleatorio + cicloEstructura;
+        int cicloFin = cicloAleatorio + cicloMasCercano; //momento fin de ciclo
+        System.out.println(cicloMasCercano+"_"+cicloEstructura+"_"+cicloAleatorio+"_"+cicloFin+"_"+ciclosDisparos);
       
         //Sacamos la lista de candidatos de disparos activas
           
@@ -460,7 +478,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
             candidatosDisparos = disparoAzar(candidatosDisparos);
         }
           
-        if (ciclosDisparos == cicloFin){
+        if (ciclosDisparos >= cicloFin){
             ciclosDisparos = 0;
         } else {
             ciclosDisparos++;
@@ -491,12 +509,14 @@ public class InvaderPanel extends JPanel implements ActionListener {
     		}
     	}
     	
+    	
     	try {
     		int f = r.nextInt(candidatosEstructuras.size());
-    		disparosAtacantes.add(addDisparoAtacante(candidatosDisparos.get(f)));
-            candidatosDisparos.remove(f);
-    	} catch (Exception e){
-    		//
+    		candidatosEstructuras.get(f);
+    	} catch (Exception e) {
+    		if (estado.getEntorno() == 1 ) {
+    			System.out.println("Estructura no encontrada");
+    		}
     	}
     	
     	//disparo más cercana sobre la estructura
@@ -524,6 +544,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
         return candidatosDisparos;
     }
    
+    //Obtener quien está más cerca al punto de disparo.
     private int obtenerQuienDispara(ArrayList<Atacante> candidatosDisparos, int puntoDisparo){
     	//Encuentra el más cercano a un punto.
     	int posxRelativaMin = -1;
@@ -539,6 +560,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
     	return puntero;
     }
     
+    //añade atacante.
     private Disparo addDisparoAtacante(Atacante atacante) {
         int xDisparo = 15;
         int yDisparo = 15;
@@ -546,7 +568,4 @@ public class InvaderPanel extends JPanel implements ActionListener {
   
         return disparo;
     }
-    
-    
-    
 }

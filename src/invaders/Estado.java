@@ -7,6 +7,7 @@ public class Estado {
 	int vidas;
 	int maxVidas;
 	int velocidad;
+	int limitey;
 	
 	private int disparoCercano;
 	private int disparoEstructura;
@@ -14,6 +15,8 @@ public class Estado {
 	
 	private boolean finJuego = false;
 	private boolean pausa = false;
+	
+	private int entorno = 0; //0 = normal, 1 = test
 	
 	
 	Estado(){
@@ -27,7 +30,7 @@ public class Estado {
 		disparoAzar = 30;
 	}
 	
-	Estado(int velocidad, int disparoCercano, int disparoEstructura, int disparoAzar){
+	Estado(int velocidad, int disparoCercano, int disparoEstructura, int disparoAzar, int limitey){
 		puntos = 0;
 		nivel = 1;
 		vidas = 3;
@@ -36,15 +39,27 @@ public class Estado {
 		this.disparoCercano = disparoCercano;
 		this.disparoEstructura = disparoEstructura;
 		this.disparoAzar = disparoAzar;
+		this.limitey = limitey;
+	}
+	
+	Estado(int limitey){
+		puntos = 0;
+		nivel = 1;
+		vidas = 3;
+		maxVidas = 6;
+		velocidad = 10;
+		disparoCercano = 10;
+		disparoEstructura = 20;
+		disparoAzar = 30;
+		this.limitey = limitey;
 	}
 
 	public void ganaPuntos(int data){
 		float ponderadoNivel = 1 + ((float) nivel-1)/10;
-		System.out.println(ponderadoNivel);
 		if (data > 0){
 			puntos += 10 * ponderadoNivel;
 		} else {
-			puntos -= 2  * ponderadoNivel;
+			puntos -= 5  * ponderadoNivel;
 		}
 	}
 	
@@ -64,12 +79,12 @@ public class Estado {
 	}
 	
 	private void aumentarDificultad(){
-		float ponderadoNivelA = 1 + ((float) nivel-1)/5;
-		float ponderadoNivelR = 1 - ((float) nivel-1)/5;
+		float ponderadoNivelA = 1 + ((float) nivel-1)/10;
+		float ponderadoNivelR = 1 - ((float) nivel-1)/10;
 		velocidad = (int) (velocidad * ponderadoNivelA);
 		disparoCercano = (int) (disparoCercano * ponderadoNivelR) ; 
 		disparoEstructura = (int) (disparoEstructura * ponderadoNivelR) ;
-		disparoAzar = (int) (disparoAzar * ponderadoNivelR) ;		
+		disparoAzar = (int) (disparoAzar * ponderadoNivelR) ;	
 	}
 	
 	public void ganaVida(int data){
@@ -90,6 +105,10 @@ public class Estado {
 	
 	public int getVidas(){
 		return vidas;
+	}
+	
+	public void setFinJuego(boolean fin){
+		finJuego = fin;
 	}
 	
 	public boolean getFinJuego(){
@@ -134,5 +153,9 @@ public class Estado {
 	
 	public int getDisparoEstructura(){
 		return disparoEstructura;
+	}
+	
+	public int getEntorno(){
+		return entorno;
 	}
 }

@@ -28,8 +28,10 @@ public class Atacante  {
     public void pintar(InvaderPanel invaderPanel, Graphics g){
     	if (dibujar) {
             this.ip = invaderPanel;
-            if (posy > ip.limite){
+            //Si sobrepasa el límite
+            if (posy > ip.limitey){
                 //game over
+            	ip.estado.setFinJuego(true);
                 ip.ataquey = ip.ataqueiy;
                 posy =ip.ataqueiy;
             }

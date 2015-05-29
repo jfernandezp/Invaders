@@ -78,7 +78,7 @@ public class Estructura {
 			}
 		}
 
-		public int getMinPosY() {
+		public static int getMinPosY() {
 			return minPosY;
 		}
 }
