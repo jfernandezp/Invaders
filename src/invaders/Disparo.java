@@ -92,7 +92,6 @@ public class Disparo {
                 return true;
             } else {
                 //no la hay
-                //System.out.println("no");
                 return false;
                  
             }
