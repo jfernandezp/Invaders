@@ -54,6 +54,22 @@ public class Estado {
 		this.limitey = limitey;
 	}
 
+	public Estado(int nivel, int vidas, int maxVidas, int puntos, int velocidad,
+			int disparoCercano, int disparoEstructura, int disparoAzar) {
+		this.puntos = puntos;
+		this.nivel = nivel;
+		this.vidas = vidas;
+		this.maxVidas = maxVidas;
+		this.velocidad = velocidad;
+		this.disparoCercano = disparoCercano;
+		this.disparoEstructura = disparoEstructura;
+		this.disparoAzar = disparoAzar;
+	}
+	
+	public void setLimiteY(int limitey){
+		this.limitey = limitey;
+	}
+
 	public void ganaPuntos(int data){
 		float ponderadoNivel = 1 + ((float) nivel-1)/10;
 		if (data > 0){

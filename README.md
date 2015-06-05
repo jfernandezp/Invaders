@@ -1,6 +1,6 @@
 # Invaders
 Juego sencillo de Invasores hecho en java en un entorno educativo.
-<<<<<<< HEAD
+
 Versión en desarrollo...
 
 ## Requisitos
@@ -10,10 +10,7 @@ https://github.com/jfernandezpe/Utils
 ##Como jugar
 Ejecutar desde el terminal el archivo .jar ejecutable
 
-Te pedirá que definas un escenario:
-Velocidad del juego (recomendado entre 10 y 50)
-Momento en el que te atacan directamente (Recomendado entre 2 y 15)
-Momento del ataque general (Recomendado el doblo que el ataque directo
+Te pedirá que definas un escenario desde la lista de escenarios preestablecidos (en .niveles/)
 
 A continuación se abre la ventana de juego.
 
@@ -21,7 +18,8 @@ A continuación se abre la ventana de juego.
 Empezar a jugar/Pausar/Iniciar juego: teclas "Pausa Inter" o "P"
 Mover tu defensor a la izquierda: fecha a la izquierda.
 Mover tu defensor a la derecha: flecha a la derecha.
+Para disparar, pulsa la barra espaciadroa
 =======
 
 Para cualquier cuestión, puede contactar: https://jfernandezpe.wordpress.com/
->>>>>>> 9f667986311ad6b96341ca85c7361810e0cbd674
+
