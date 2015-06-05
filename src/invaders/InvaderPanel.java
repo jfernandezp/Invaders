@@ -65,10 +65,11 @@ public class InvaderPanel extends JPanel implements ActionListener {
     
     private static Random r = new Random();
       
-    public InvaderPanel(final int ventanatx, int ventanaty, int veloc, int ataqCercano, int ataqEstruc, int ataqAzar){
+    public InvaderPanel(final int ventanatx, int ventanaty, Estado estado){
     	
-    	estado = new Estado(veloc, ataqCercano, ataqEstruc, ataqAzar,limitey);
-    	estado.setPausa(true);
+    	this.estado = estado;
+    	this.estado.setLimiteY(limitey);
+    	this.estado.setPausa(true);
     	    	
         defensatx=40;
         defensaty=20;
@@ -92,14 +93,14 @@ public class InvaderPanel extends JPanel implements ActionListener {
             @Override
             public void keyPressed(KeyEvent e) {
                 int nPosicion;
-                if (e.getKeyCode() == 37){
-                    nPosicion = defensax - velocidadDefensa;
+                if (e.getKeyCode() == 37 && !estado.getPausa() && !estado.getFinJuego() ){
+                	nPosicion = defensax - velocidadDefensa;
                     if (nPosicion < 0) {
                         defensax = 0;
                     } else {
                         defensax = nPosicion;
                     }
-                } else if ( e.getKeyCode() == 39) {
+                } else if ( e.getKeyCode() == 39 && !estado.getPausa() && !estado.getFinJuego()){
                     nPosicion = defensax + velocidadDefensa;
                     int limite = ventanatx - margenVentana - (defensatx );
                     if (nPosicion > limite) {
@@ -137,6 +138,14 @@ public class InvaderPanel extends JPanel implements ActionListener {
         Timer timer = new Timer(1000 / estado.getVelocidad() , this);
         timer.start();
     }
+    
+
+
+	public void setEstado(int nivel, int vidas, int maxVidas, int velocidad,
+			int disparoCercano, int disparoEstructura, int disparoAzar) {
+		// TODO Apéndice de método generado automáticamente
+		
+	}
       
     //Bucle del juego:
     public void actionPerformed(ActionEvent e) {
@@ -438,7 +447,6 @@ public class InvaderPanel extends JPanel implements ActionListener {
         int cicloEstructura = estado.getDisparoEstructura();
         int cicloAleatorio = estado.getDisparoAzar();
         int cicloFin = cicloAleatorio + cicloMasCercano; //momento fin de ciclo
-        System.out.println(cicloMasCercano+"_"+cicloEstructura+"_"+cicloAleatorio+"_"+cicloFin+"_"+ciclosDisparos);
       
         //Sacamos la lista de candidatos de disparos activas
           

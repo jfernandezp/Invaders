@@ -1,5 +1,7 @@
 package invaders;
  
+import guardados.Cargar;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -10,19 +12,18 @@ public class Invaders {
      
     public static void main(String[] args) {
     	
-    	int velocidad = UtilsUI.getConsoleInt("Velocidad del juego [Por defecto 10]:",true, 10);
-    	int ataqueCercano = UtilsUI.getConsoleInt("Momento en el que atacan directamente [Por defecto: 10]:",true, 10);
-    	int ataqueEstructura = UtilsUI.getConsoleInt("Momento del ataque a estructura [Por defecto 20] :",true, 20);
-    	int ataqueNormal = UtilsUI.getConsoleInt("Momento del ataque a normal [Por defecto 30] :",true, 30);
+    	String fichero = UtilsUI.getConsoleFilename("Introduce el nombre del fichero:", "json");
+    	Cargar carga = new Cargar(fichero);    	
+    	
+    	Estado estado = new Estado(carga.getNivel(),carga.getVidas(),carga.getMaxVidas(),carga.getPuntos(),carga.getVelocidad(),carga.getDisparoCercano(),carga.getDisparoEstructura(),carga.getDisparoAzar());
     	
         JFrame frame = new JFrame("Invaders");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     //   frame.setLayout(new BorderLayout());
  
         int ventanatx = 700;
         int ventanaty = 500;
-        InvaderPanel pongPanel = new InvaderPanel(ventanatx, ventanaty, velocidad, ataqueCercano, ataqueEstructura,ataqueNormal);
-        frame.add(pongPanel, BorderLayout.CENTER);
+        InvaderPanel invadersPanel = new InvaderPanel(ventanatx, ventanaty,estado);
+        frame.add(invadersPanel, BorderLayout.CENTER);
  
         frame.setSize(ventanatx, ventanaty);
         frame.setVisible(true);
