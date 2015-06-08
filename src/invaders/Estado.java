@@ -19,7 +19,7 @@ public class Estado {
 	private int entorno = 0; //0 = normal, 1 = test
 	
 	
-	Estado(){
+	public Estado(){
 		puntos = 0;
 		nivel = 1;
 		vidas = 3;
@@ -30,7 +30,7 @@ public class Estado {
 		disparoAzar = 30;
 	}
 	
-	Estado(int velocidad, int disparoCercano, int disparoEstructura, int disparoAzar, int limitey){
+	public Estado(int velocidad, int disparoCercano, int disparoEstructura, int disparoAzar, int limitey){
 		puntos = 0;
 		nivel = 1;
 		vidas = 3;
