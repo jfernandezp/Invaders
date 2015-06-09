@@ -2,6 +2,7 @@ package launcher;
 
 import java.awt.BorderLayout;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -17,6 +18,9 @@ import invaders.InvaderPanel;
  */
 public class InvadersLauncher {
 
+	private void loadImage(){
+	}
+	
 	public static void main(String[] args) {
 		String titulo = "Invaders";
 		Estado estado = new Estado();
