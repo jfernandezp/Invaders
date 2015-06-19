@@ -12,15 +12,15 @@ import org.json.simple.parser.ParseException;
 
 
 public class Cargar {
-	static String jugador;
-	private static int nivel;
-	private static int vidas;
-	private static int maxVidas;
-	private static int velocidad;
-	private static int puntos;
-	private static int disparoCercano;
-	private static int disparoEstructura;
-	private static int disparoAzar;
+	String jugador;
+	private int nivel;
+	private int vidas;
+	private int maxVidas;
+	private int velocidad;
+	private int puntos;
+	private int disparoCercano;
+	private int disparoEstructura;
+	private int disparoAzar;
 	
 	public Cargar(String fichero) {
 		jugador = "Invaders";
@@ -34,7 +34,7 @@ public class Cargar {
 				
 		iniciarCarga(fichero);
 	}
-	public static void iniciarCarga(String fichero){
+	public void iniciarCarga(String fichero){
 		JSONParser parser = new JSONParser();
 		try {
 			 
@@ -62,47 +62,47 @@ public class Cargar {
 		}
 	 
      }
-	public static int getVidas() {
+	public int getVidas() {
 		return vidas;
 	}
-	public static void setVidas(int vidas) {
-		Cargar.vidas = vidas;
+	public void setVidas(int vidas) {
+		this.vidas = vidas;
 	}
-	public static int getDisparoAzar() {
+	public int getDisparoAzar() {
 		return disparoAzar;
 	}
-	public static void setDisparoAzar(int disparoAzar) {
-		Cargar.disparoAzar = disparoAzar;
+	public void setDisparoAzar(int disparoAzar) {
+		this.disparoAzar = disparoAzar;
 	}
-	public static int getNivel() {
+	public int getNivel() {
 		return nivel;
 	}
-	public static void setNivel(int nivel) {
-		Cargar.nivel = nivel;
+	public void setNivel(int nivel) {
+		this.nivel = nivel;
 	}
-	public static int getVelocidad() {
+	public int getVelocidad() {
 		return velocidad;
 	}
-	public static void setVelocidad(int velocidad) {
-		Cargar.velocidad = velocidad;
+	public void setVelocidad(int velocidad) {
+		this.velocidad = velocidad;
 	}
-	public static int getDisparoEstructura() {
+	public int getDisparoEstructura() {
 		return disparoEstructura;
 	}
-	public static void setDisparoEstructura(int disparoEstructura) {
-		Cargar.disparoEstructura = disparoEstructura;
+	public void setDisparoEstructura(int disparoEstructura) {
+		this.disparoEstructura = disparoEstructura;
 	}
-	public static int getMaxVidas() {
+	public int getMaxVidas() {
 		return maxVidas;
 	}
-	public static void setMaxVidas(int maxVidas) {
-		Cargar.maxVidas = maxVidas;
+	public void setMaxVidas(int maxVidas) {
+		this.maxVidas = maxVidas;
 	}
-	public static int getDisparoCercano() {
+	public int getDisparoCercano() {
 		return disparoCercano;
 	}
-	public static void setDisparoCercano(int disparoCercano) {
-		Cargar.disparoCercano = disparoCercano;
+	public void setDisparoCercano(int disparoCercano) {
+		this.disparoCercano = disparoCercano;
 	}
 	public int getPuntos() {
 		return puntos;

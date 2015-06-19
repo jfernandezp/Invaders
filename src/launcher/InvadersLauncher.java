@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 import invaders.Estado;
 import invaders.InvaderPanel;
+import invaders.Invaders;
+import invaders.MenuInvaders;
 
 //Haciendose...
 /**
@@ -42,13 +44,12 @@ public class InvadersLauncher {
 			((LauncherPanel) panel).nextSplash();
 			panel.repaint();
 			
-			Thread.sleep((long) (3600 + tiempo));
+			Thread.sleep((long) (1800 + tiempo));
 			
 			frame.getContentPane().remove(panel);
 			panel = null;
-	        panel = new InvaderPanel(ventanatx, ventanaty,estado);
-			frame.add(panel, BorderLayout.CENTER);
-	        frame.paintAll(frame.getGraphics());
+			Invaders invaders = new Invaders(frame,panel,estado);
+			
 		} catch (Exception e) {
 //			e.printStackTrace();
 		}	
