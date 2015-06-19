@@ -115,7 +115,6 @@ public class MenuInvaders extends JPanel{
 	}
 
 	public void keyPress(int keyCode) {
-		System.out.println(keyCode);
 		switch(keyCode){
 			case 10:
 				pulsaEnter(keyCode);
