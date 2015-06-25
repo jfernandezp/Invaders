@@ -16,35 +16,48 @@ public class Invaders {
 	int ventanaty;
 	private JFrame frame;
 	private JPanel panel;
+	private Estado estado;
 	
+	//Paso 2b
 	public Invaders(){
 		iniciarTamano();
+		estado = new Estado();
+	}
+	
+	//Paso 2b
+	public Invaders(String titulo){
+		this();
+		createFrame(titulo);
+		iniciarPanelMenu();
 	}
 	
 	public Invaders(JFrame frame, JPanel panel, Estado estado){
 		this();
-		
+		this.estado = estado;
+		iniciarTamano();
 		frame.setSize(ventanatx,ventanaty);	
 		iniciarPanelMenu(frame,panel);
-		
 	}
-	
+	//Paso 2a
 	public void iniciarTamano(){
 		ventanatx = 700;
         ventanaty = 500;
 	}
 	
-	private void iniciarPanelMenu(JFrame frame, JPanel panel){
-		this.frame = frame;
-		this.panel = panel;
-		iniciarPanelMenu();
-	}
+	//Paso 3
 	
 	private void iniciarPanelMenu(){
 		this.panel = new MenuInvaders(ventanatx,ventanaty,frame);
 		frame.add(this.panel, BorderLayout.CENTER);
         frame.paintAll(frame.getGraphics());
         ((MenuInvaders) panel).bucle();
+        iniciarInvaderPanel(estado);
+	}
+	
+	private void iniciarPanelMenu(JFrame frame, JPanel panel){
+		this.frame = frame;
+		this.panel = panel;
+		iniciarPanelMenu();
 	}
 	
 	private void createFrame(String titulo){
@@ -57,15 +70,23 @@ public class Invaders {
 	}
 	
 	public void iniciarInvaderPanel(Estado estado){
-        InvaderPanel invadersPanel = new InvaderPanel(ventanatx, ventanaty,estado);
-        frame.add(invadersPanel, BorderLayout.CENTER);        
+		frame.getContentPane().remove(panel);
+		panel = null;
+		
+        InvaderPanel invadersPanel = new InvaderPanel(ventanatx, ventanaty,estado); 
+        panel = (JPanel) invadersPanel;
+        frame.add(invadersPanel,BorderLayout.CENTER);
+        frame.paintAll(frame.getGraphics());
+        invadersPanel.bucle();
 	}
 	
+	
+	//Cosola	
 	private void iniciarGUI(Estado estado, String titulo){
 		createFrame(titulo);
     	iniciarInvaderPanel(estado);
 	}
-     
+     //Consola
 	public void iniciarConsola(String titulo){
     	String fichero = UtilsUI.getConsoleFilename("Introduce el nombre del fichero:", "json");
     	Cargar carga = new Cargar(fichero); 
@@ -74,17 +95,11 @@ public class Invaders {
     	iniciarGUI(estado,titulo);
 	}
 	
-	public void iniciarVentana(String titulo){
-		Estado estado = new Estado();
-		createFrame(titulo);
-//		iniciarGUI(estado,titulo);
-		iniciarPanelMenu();
-	}
-	
+	//Paso 1
     public static void main(String[] args) {
     	String titulo = "Invaders";
-    	Invaders invaders = new Invaders();
+    	new Invaders(titulo);
+//    	Invaders invaders = new Invaders();
 //    	invaders.iniciarConsola(titulo);
-    	invaders.iniciarVentana(titulo);
     }   
 }

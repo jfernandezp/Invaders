@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
    
    
-public class InvaderPanel extends JPanel implements ActionListener {
+public class InvaderPanel extends JPanel {
     /**
      * 
      */
@@ -129,19 +129,12 @@ public class InvaderPanel extends JPanel implements ActionListener {
                     disparos.add(new Disparo(true, posx, posyDD, xDD, yDD));
                 } 
             }
-        };
-        addKeyListener(listener);
-           
+        };           
            
         /**************************************/    
            
         //listen to key presses
         setFocusable(true);
-       // addKeyListener(this);
-   
-        //call step() 60 fps
-        Timer timer = new Timer(1000 / estado.getVelocidad() , this);
-        timer.start();
     }
     
 
@@ -153,25 +146,35 @@ public class InvaderPanel extends JPanel implements ActionListener {
 	}
       
     //Bucle del juego:
-    public void actionPerformed(ActionEvent e) {
-        if ((!estado.getPausa()) && (!estado.getFinJuego())){
-        	
-        	comprobarEstado();
-        	
-            intentarBajarFila(1); 
-              
-            desplazamientoHorizontal();
-              
-            comprobarColisionesDisparosAtaque();
-              
-            comprobarColisionesDisparosDefensa();
-           
-            Ataques();
+    public void bucle() {
+    	System.out.println(estado.getPausa());
+    	System.out.println("-->"+estado.getFinJuego());
+    	System.out.println("-a->"+estado.getVelocidad());
+    	while(!estado.getFinJuego()){
+	        if (estado.getPausa()){
+	            System.out.println("antesPausa1");
+//	            super.repaint();
+	            System.out.println("antesPausa2");
+	        	
+	        	comprobarEstado();
+	        	
+	            intentarBajarFila(1); 
+	              
+	            desplazamientoHorizontal();
+	              
+	            comprobarColisionesDisparosAtaque();
+	              
+	            comprobarColisionesDisparosDefensa();
+	           
+	            Ataques();
+	            System.out.println("antesPausa3");
+		        try {
+					Thread.sleep(1000/estado.getVelocidad());
+				} catch (InterruptedException e) {
+					//
+				}
+	        }
         }
-                  
-        //System.out.println("_________________________________________________");
-          
-        repaint();  
     }
     
     //Comprueba el estado del juego;
@@ -191,6 +194,8 @@ public class InvaderPanel extends JPanel implements ActionListener {
   
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        
+        System.out.println("pinto");
         g.setColor(Color.WHITE);
         
         Graphics2D g2=(Graphics2D) g;

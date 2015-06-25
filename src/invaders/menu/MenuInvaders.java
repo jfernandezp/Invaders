@@ -17,6 +17,7 @@ public class MenuInvaders extends JPanel{
 	int[][] menus;
 	private String[] btnText;
 	private boolean[] btnEstados;
+	private boolean salir;
 	
 	public MenuInvaders(int ventanatx, int ventanaty, JFrame frame){
 		int numBotones;
@@ -42,7 +43,7 @@ public class MenuInvaders extends JPanel{
 	}
 	
 	public void bucle(){
-		boolean salir = false;
+		salir = false;
 		while(!salir){
 			try {
 				Thread.sleep(velocidad);
@@ -136,7 +137,18 @@ public class MenuInvaders extends JPanel{
 	}
 
 	private void pulsaEnter(int keyCode) {
-		// TODO Apéndice de método generado automáticamente
+		boolean encontradoActivo = false;
+		for(int i = 0; i < btnEstados.length && !encontradoActivo; i++){
+			if(btnEstados[i]){
+				encontradoActivo = true;
+				switch(i){
+					case 0:
+						salir = true;
+						break;
+					
+				}
+			}
+		}
 		
 	}
 
