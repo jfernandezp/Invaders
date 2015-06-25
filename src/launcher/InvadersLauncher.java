@@ -1,16 +1,12 @@
 package launcher;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import invaders.Invaders;
+import invaders.objetos.Estado;
 
-import javax.imageio.ImageIO;
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import invaders.Estado;
-import invaders.InvaderPanel;
-import invaders.Invaders;
-import invaders.MenuInvaders;
 
 //Haciendose...
 /**

@@ -1,4 +1,4 @@
-package invaders;
+package invaders.menu;
 
 import java.awt.Color;
 import java.awt.Font;

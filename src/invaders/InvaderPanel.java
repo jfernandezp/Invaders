@@ -1,5 +1,10 @@
 package invaders;
    
+import invaders.objetos.Atacante;
+import invaders.objetos.Disparo;
+import invaders.objetos.Estado;
+import invaders.objetos.Estructura;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -45,7 +50,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
     int ciclos = 0;
     int ciclosDisparos = 0;
     int limiteiy = (desplazamientoyFila * 12)  + ataqueiy;
-    int limitey = limiteiy;
+    public int limitey = limiteiy;
     private Atacante listaAtacantes[] = new Atacante[60];
 
     Graphics g2;

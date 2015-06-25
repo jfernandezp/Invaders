@@ -1,4 +1,4 @@
-package invaders;
+package invaders.objetos;
   
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,7 +11,7 @@ public class Disparo {
     boolean tipo; 
     int movimiento;
      
-    Disparo(boolean tipo, int posxO, int posyO, int xO, int yO){
+    public Disparo(boolean tipo, int posxO, int posyO, int xO, int yO){
         this.tipo = tipo;
         posx = posxO;
         posy = posyO;

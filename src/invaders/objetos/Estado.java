@@ -1,4 +1,4 @@
-package invaders;
+package invaders.objetos;
 
 public class Estado {
 	

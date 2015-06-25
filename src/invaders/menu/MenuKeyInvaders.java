@@ -1,4 +1,4 @@
-package invaders;
+package invaders.menu;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

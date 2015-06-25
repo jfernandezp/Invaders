@@ -1,5 +1,7 @@
-package invaders;
+package invaders.objetos;
  
+import invaders.InvaderPanel;
+
 import java.awt.Graphics;
  
 public class Atacante  {
