@@ -1,7 +1,7 @@
 package launcher;
 
 import invaders.Invaders;
-import invaders.objetos.Estado;
+import invaders.estado.Estado;
 
 import java.awt.BorderLayout;
 

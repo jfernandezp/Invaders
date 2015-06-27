@@ -1,8 +1,8 @@
 package invaders;
    
+import invaders.estado.Estado;
 import invaders.objetos.Atacante;
 import invaders.objetos.Disparo;
-import invaders.objetos.Estado;
 import invaders.objetos.Estructura;
 
 import java.awt.Color;

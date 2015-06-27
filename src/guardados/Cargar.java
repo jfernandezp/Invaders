@@ -1,11 +1,12 @@
 package guardados;
 
+import invaders.estado.EstadoDefecto;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,28 +22,73 @@ public class Cargar {
 	private int disparoCercano;
 	private int disparoEstructura;
 	private int disparoAzar;
+	private JSONObject jsonObject;
 	
-	public Cargar(String fichero) {
-		jugador = "Invaders";
-		setNivel(1);
-		setVidas(3);
-		setMaxVidas(6);
-		setVelocidad(10);
-		setDisparoCercano(10);
-		setDisparoEstructura(20);
-		setDisparoAzar(30);
-				
+	Cargar(){
+		valoresPorDefecto();
+	}
+
+	public Cargar(File fichero) {
+		this();
 		iniciarCarga(fichero);
 	}
-	public void iniciarCarga(String fichero){
+	
+	
+	public Cargar(String fichero) {
+		this();
+		iniciarCarga(fichero);
+	}
+	
+	private void valoresPorDefecto() {
+		EstadoDefecto estadoDefecto = new EstadoDefecto();
+		jugador = "Invaders";
+		setNivel(estadoDefecto.getNivel());
+		setVidas(estadoDefecto.getVidas());
+		setMaxVidas(estadoDefecto.getMaxVidas());
+		setVelocidad(estadoDefecto.getVelocidad());
+		setDisparoCercano(estadoDefecto.getDisparoCercano());
+		setDisparoEstructura(estadoDefecto.getDisparoEstructura());
+		setDisparoAzar(estadoDefecto.getDisparoAzar());
+	}
+	
+	public void iniciarCarga(String fichero) {
+		JSONParser parser = new JSONParser();
+		
+		try { 	 
+			Object obj = parser.parse(new FileReader(fichero));
+	 
+			jsonObject = (JSONObject) obj;
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado. Cargando datos por defecto");
+		} catch (IOException e) {
+			System.out.println("Error de entrada o salida. Cargando datos por defecto");
+		} catch (ParseException e) {
+			System.out.println("Error al interpretar el fichero. Cargando datos por defecto");
+		}
+		
+		obtenerDatosFichero();		
+	}
+
+	public void iniciarCarga(File fichero){
 		JSONParser parser = new JSONParser();
 		try {
 			 
-			Object obj = parser.parse(new FileReader("niveles/"+fichero));
+			Object obj = parser.parse(new FileReader(fichero));
 	 
-			JSONObject jsonObject = (JSONObject) obj;
-	 
-			
+			jsonObject = (JSONObject) obj;
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado. Cargando datos por defecto");
+		} catch (IOException e) {
+			System.out.println("Error de entrada o salida. Cargando datos por defecto");
+		} catch (ParseException e) {
+			System.out.println("Error al interpretar el fichero. Cargando datos por defecto");
+		}
+		
+		obtenerDatosFichero();		 
+    }
+	
+	private void obtenerDatosFichero(){
+		try{
 			jugador = (String) jsonObject.get("jugador");
 			nivel =  Integer.parseInt((String) jsonObject.get("nivel"));
 			vidas = Integer.parseInt((String)  jsonObject.get("vidas"));
@@ -51,17 +97,12 @@ public class Cargar {
 			velocidad = Integer.parseInt((String)  jsonObject.get("velocidad"));
 			disparoCercano = Integer.parseInt((String)  jsonObject.get("disparoCercano"));
 			disparoEstructura = Integer.parseInt((String)  jsonObject.get("disparoEstructura"));
-			disparoAzar = Integer.parseInt((String)  jsonObject.get("disparoAzar"));	
-
-		} catch (FileNotFoundException e) {
-			System.out.println("Fichero no encontrado. Cargando datos por defecto");
-		} catch (IOException e) {
-			System.out.println("Error de entrada o salida. Cargando datos por defecto");
-		} catch (ParseException e) {
-			System.out.println("Error al interpretar el fichero. Cargando datos por defecto");
+			disparoAzar = Integer.parseInt((String)  jsonObject.get("disparoAzar"));
+		} catch (NullPointerException e){
+			
 		}
-	 
-     }
+	}
+	
 	public int getVidas() {
 		return vidas;
 	}

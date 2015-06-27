@@ -1,8 +1,8 @@
 package invaders;
  
 import guardados.Cargar;
+import invaders.estado.Estado;
 import invaders.menu.MenuInvaders;
-import invaders.objetos.Estado;
 
 import java.awt.BorderLayout;
 
@@ -21,7 +21,6 @@ public class Invaders {
 	//Paso 2b
 	public Invaders(){
 		iniciarTamano();
-		estado = new Estado();
 	}
 	
 	//Paso 2b
@@ -51,6 +50,7 @@ public class Invaders {
 		frame.add(this.panel, BorderLayout.CENTER);
         frame.paintAll(frame.getGraphics());
         ((MenuInvaders) panel).bucle();
+        estado = ((MenuInvaders) panel).getEstado();
         iniciarInvaderPanel(estado);
 	}
 	

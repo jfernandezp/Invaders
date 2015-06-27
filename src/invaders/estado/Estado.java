@@ -1,18 +1,10 @@
-package invaders.objetos;
+package invaders.estado;
 
-public class Estado {
+public class Estado extends EstadoDefecto{
 	
 	int puntos;
-	int nivel;
-	int vidas;
-	int maxVidas;
-	int velocidad;
 	int limitey;
-	
-	private int disparoCercano;
-	private int disparoEstructura;
-	private int disparoAzar;
-	
+		
 	private boolean finJuego = false;
 	private boolean pausa = false;
 	
@@ -20,14 +12,6 @@ public class Estado {
 	
 	
 	public Estado(){
-		puntos = 0;
-		nivel = 1;
-		vidas = 3;
-		maxVidas = 6;
-		velocidad = 10;
-		disparoCercano = 10;
-		disparoEstructura = 20;
-		disparoAzar = 30;
 	}
 	
 	public Estado(int velocidad, int disparoCercano, int disparoEstructura, int disparoAzar, int limitey){
@@ -79,14 +63,6 @@ public class Estado {
 		}
 	}
 	
-	public int getPuntos(){
-		return puntos;
-	}
-	
-	public int getNivel(){
-		return nivel;
-	}
-	
 	public void aumentarNivel(){
 		nivel++;
 		if (nivel <= 10){
@@ -119,10 +95,6 @@ public class Estado {
 		}
 	}
 	
-	public int getVidas(){
-		return vidas;
-	}
-	
 	public void setFinJuego(boolean fin){
 		finJuego = fin;
 	}
@@ -137,38 +109,6 @@ public class Estado {
 	
 	public boolean getPausa(){
 		return pausa;
-	}
-	
-	public void setVelocidad(int data){
-		velocidad = data;
-	}
-	
-	public int getVelocidad(){
-		return velocidad;
-	}
-	
-	public void setDisparoCercano(int data){
-		disparoCercano = data;
-	}
-	
-	public int getDisparoCercano(){
-		return disparoCercano;
-	}
-	
-	public void setDisparoAzar(int data){
-		disparoAzar = data;
-	}
-	
-	public int getDisparoAzar(){
-		return disparoAzar;
-	}
-	
-	public void setDisparoEstructura(int data){
-		disparoEstructura = data;
-	}
-	
-	public int getDisparoEstructura(){
-		return disparoEstructura;
 	}
 	
 	public int getEntorno(){

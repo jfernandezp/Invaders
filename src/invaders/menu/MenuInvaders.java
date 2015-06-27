@@ -1,12 +1,17 @@
 package invaders.menu;
 
+import guardados.Cargar;
+import invaders.estado.Estado;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -17,7 +22,8 @@ public class MenuInvaders extends JPanel{
 	int[][] menus;
 	private String[] btnText;
 	private boolean[] btnEstados;
-	private boolean salir;
+	private boolean salirMenu;
+	private Estado estado;
 	
 	public MenuInvaders(int ventanatx, int ventanaty, JFrame frame){
 		int numBotones;
@@ -43,8 +49,8 @@ public class MenuInvaders extends JPanel{
 	}
 	
 	public void bucle(){
-		salir = false;
-		while(!salir){
+		salirMenu = false;
+		while(!salirMenu){
 			try {
 				Thread.sleep(velocidad);
 				repaint();
@@ -143,7 +149,10 @@ public class MenuInvaders extends JPanel{
 				encontradoActivo = true;
 				switch(i){
 					case 0:
-						salir = true;
+						salirMenu = true;
+						break;
+					case 1: 
+						personalizarPartida();
 						break;
 					
 				}
@@ -182,5 +191,19 @@ public class MenuInvaders extends JPanel{
 		}
 		activo--;
 		btnEstados[activo] = true;
+	}
+	
+
+
+	public void personalizarPartida() {
+		JFileChooser elegir = new JFileChooser();
+		elegir.showOpenDialog(this);
+		File fichero = elegir.getSelectedFile();
+		Cargar carga = new Cargar(fichero);		
+		estado = new Estado(carga.getNivel(),carga.getVidas(),carga.getMaxVidas(),carga.getPuntos(),carga.getVelocidad(),carga.getDisparoCercano(),carga.getDisparoEstructura(),carga.getDisparoAzar());
+	}
+	
+	public Estado getEstado(){
+		return estado;
 	}
 }
