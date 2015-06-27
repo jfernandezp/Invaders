@@ -7,8 +7,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -16,18 +14,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MenuInvaders extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int buttonPosx, buttonPosy, buttonSpace;
 	int buttonWidth, buttonHeight;
-	int velocidad;
 	int[][] menus;
 	private String[] btnText;
 	private boolean[] btnEstados;
-	private boolean salirMenu;
 	private Estado estado;
+	private MenuControlador controlador;
 	
-	public MenuInvaders(int ventanatx, int ventanaty, JFrame frame){
+	public MenuInvaders(int ventanatx, int ventanaty, JFrame frame, MenuControlador menuControlador){
 		int numBotones;
-		velocidad = 100;
 		frame.setBackground(Color.BLACK);
 		buttonSpace = 20;
 		buttonWidth = 240;
@@ -42,23 +42,12 @@ public class MenuInvaders extends JPanel{
 		btnText = auxBtnText;
 		createButtons(numBotones);
 		
+		this.controlador = menuControlador;
+		
 		MenuKeyInvaders lisenner = new MenuKeyInvaders(this);
 		frame.requestFocus();
 		frame.addKeyListener(lisenner);
 		
-	}
-	
-	public void bucle(){
-		salirMenu = false;
-		while(!salirMenu){
-			try {
-				Thread.sleep(velocidad);
-				repaint();
-			} catch (InterruptedException e) {
-				// TODO Bloque catch generado automáticamente
-				e.printStackTrace();
-			}			
-		}
 	}
 	
 	private void crearEstado(int num) {
@@ -149,7 +138,7 @@ public class MenuInvaders extends JPanel{
 				encontradoActivo = true;
 				switch(i){
 					case 0:
-						salirMenu = true;
+						controlador.setSalirMenu(true);
 						break;
 					case 1: 
 						personalizarPartida();
@@ -192,8 +181,6 @@ public class MenuInvaders extends JPanel{
 		activo--;
 		btnEstados[activo] = true;
 	}
-	
-
 
 	public void personalizarPartida() {
 		JFileChooser elegir = new JFileChooser();

@@ -2,7 +2,7 @@ package invaders;
  
 import guardados.Cargar;
 import invaders.estado.Estado;
-import invaders.menu.MenuInvaders;
+import invaders.menu.MenuControlador;
 
 import java.awt.BorderLayout;
 
@@ -26,8 +26,10 @@ public class Invaders {
 	//Paso 2b
 	public Invaders(String titulo){
 		this();
+		this.estado = new Estado();
 		createFrame(titulo);
 		iniciarPanelMenu();
+        iniciarInvaderPanel(estado);
 	}
 	
 	public Invaders(JFrame frame, JPanel panel, Estado estado){
@@ -36,30 +38,16 @@ public class Invaders {
 		iniciarTamano();
 		frame.setSize(ventanatx,ventanaty);	
 		iniciarPanelMenu(frame,panel);
+        iniciarInvaderPanel(this.estado);
 	}
+	
 	//Paso 2a
 	public void iniciarTamano(){
 		ventanatx = 700;
         ventanaty = 500;
 	}
 	
-	//Paso 3
-	
-	private void iniciarPanelMenu(){
-		this.panel = new MenuInvaders(ventanatx,ventanaty,frame);
-		frame.add(this.panel, BorderLayout.CENTER);
-        frame.paintAll(frame.getGraphics());
-        ((MenuInvaders) panel).bucle();
-        estado = ((MenuInvaders) panel).getEstado();
-        iniciarInvaderPanel(estado);
-	}
-	
-	private void iniciarPanelMenu(JFrame frame, JPanel panel){
-		this.frame = frame;
-		this.panel = panel;
-		iniciarPanelMenu();
-	}
-	
+	//paso 2a2
 	private void createFrame(String titulo){
 		frame = new JFrame(titulo);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
@@ -67,6 +55,25 @@ public class Invaders {
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setTitle(titulo);
+	}
+	
+	//Paso 3
+	
+	private void iniciarPanelMenu(){
+		MenuControlador menuControlador = new MenuControlador(ventanatx,ventanaty,frame);
+		panel = menuControlador.getPanel();
+		frame.add(this.panel, BorderLayout.CENTER);
+        frame.paintAll(frame.getGraphics());
+        menuControlador.bucle();
+        if ( menuControlador.getEstado() != null ){
+        	estado = menuControlador.getEstado();
+        }
+	}
+	
+	private void iniciarPanelMenu(JFrame frame, JPanel panel){
+		this.frame = frame;
+		this.panel = panel;
+		iniciarPanelMenu();
 	}
 	
 	public void iniciarInvaderPanel(Estado estado){
@@ -103,24 +110,4 @@ public class Invaders {
 //    	Invaders invaders = new Invaders();
 //    	invaders.iniciarConsola(titulo);
     }   
-    
-//    public static void main(String[] args) {
-//    	Estado estado = new Estado();
-//    	JFrame frame = new JFrame("Invaders");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-// 
-//        int ventanatx = 700;
-//        int ventanaty = 500;
-//        
-//        frame.setSize(ventanatx, ventanaty);
-//        frame.setVisible(true);
-//        frame.setResizable(false);
-//        frame.setTitle("Java Invaders");
-//        
-//        InvaderPanel invadersPanel = new InvaderPanel(ventanatx, ventanaty,estado);
-// 
-//        
-//        frame.add(invadersPanel, BorderLayout.CENTER);
-//        invadersPanel.bucle();
-//    }
 }
