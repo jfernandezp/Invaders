@@ -38,7 +38,7 @@ public class MenuInvaders extends JPanel{
 		
 		MenuKeyInvaders lisenner = new MenuKeyInvaders(this);
 		frame.requestFocus();
-			frame.addKeyListener(lisenner);
+		frame.addKeyListener(lisenner);
 		
 	}
 	

@@ -131,6 +131,7 @@ public class InvaderPanel extends JPanel {
             }
         };           
            
+        addKeyListener(listener);
         /**************************************/    
            
         //listen to key presses
@@ -147,14 +148,15 @@ public class InvaderPanel extends JPanel {
       
     //Bucle del juego:
     public void bucle() {
-    	System.out.println(estado.getPausa());
-    	System.out.println("-->"+estado.getFinJuego());
-    	System.out.println("-a->"+estado.getVelocidad());
     	while(!estado.getFinJuego()){
-	        if (estado.getPausa()){
-	            System.out.println("antesPausa1");
-//	            super.repaint();
-	            System.out.println("antesPausa2");
+	        try {
+				Thread.sleep(1000/estado.getVelocidad());
+			} catch (InterruptedException e) {
+				//
+			}
+	        
+	        if (!estado.getPausa()){
+	            super.repaint();
 	        	
 	        	comprobarEstado();
 	        	
@@ -167,12 +169,6 @@ public class InvaderPanel extends JPanel {
 	            comprobarColisionesDisparosDefensa();
 	           
 	            Ataques();
-	            System.out.println("antesPausa3");
-		        try {
-					Thread.sleep(1000/estado.getVelocidad());
-				} catch (InterruptedException e) {
-					//
-				}
 	        }
         }
     }
@@ -193,9 +189,8 @@ public class InvaderPanel extends JPanel {
     }
   
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
+		super.paintComponent(g);
         
-        System.out.println("pinto");
         g.setColor(Color.WHITE);
         
         Graphics2D g2=(Graphics2D) g;

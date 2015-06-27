@@ -70,14 +70,15 @@ public class Invaders {
 	}
 	
 	public void iniciarInvaderPanel(Estado estado){
+		//Borro el panel anterior
 		frame.getContentPane().remove(panel);
 		panel = null;
-		
+		//Añado el nuevo panel
         InvaderPanel invadersPanel = new InvaderPanel(ventanatx, ventanaty,estado); 
-        panel = (JPanel) invadersPanel;
         frame.add(invadersPanel,BorderLayout.CENTER);
+        invadersPanel.requestFocus();        
         frame.paintAll(frame.getGraphics());
-        invadersPanel.bucle();
+		invadersPanel.bucle();
 	}
 	
 	
@@ -102,4 +103,24 @@ public class Invaders {
 //    	Invaders invaders = new Invaders();
 //    	invaders.iniciarConsola(titulo);
     }   
+    
+//    public static void main(String[] args) {
+//    	Estado estado = new Estado();
+//    	JFrame frame = new JFrame("Invaders");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+// 
+//        int ventanatx = 700;
+//        int ventanaty = 500;
+//        
+//        frame.setSize(ventanatx, ventanaty);
+//        frame.setVisible(true);
+//        frame.setResizable(false);
+//        frame.setTitle("Java Invaders");
+//        
+//        InvaderPanel invadersPanel = new InvaderPanel(ventanatx, ventanaty,estado);
+// 
+//        
+//        frame.add(invadersPanel, BorderLayout.CENTER);
+//        invadersPanel.bucle();
+//    }
 }
