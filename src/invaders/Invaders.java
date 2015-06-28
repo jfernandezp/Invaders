@@ -5,6 +5,7 @@ import invaders.estado.Estado;
 import invaders.menu.MenuControlador;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -55,6 +56,7 @@ public class Invaders {
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setTitle(titulo);
+        frame.setBackground(Color.BLACK);
 	}
 	
 	//Paso 3
@@ -62,9 +64,6 @@ public class Invaders {
 	private void iniciarPanelMenu(){
 		MenuControlador menuControlador = new MenuControlador(ventanatx,ventanaty,frame);
 		panel = menuControlador.getPanel();
-		frame.add(this.panel, BorderLayout.CENTER);
-        frame.paintAll(frame.getGraphics());
-        menuControlador.bucle();
         if ( menuControlador.getEstado() != null ){
         	estado = menuControlador.getEstado();
         }

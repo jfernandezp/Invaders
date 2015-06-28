@@ -1,80 +1,43 @@
 package invaders.menu;
 
-import guardados.Cargar;
-import invaders.estado.Estado;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.File;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class MenuInvaders extends JPanel{
+public abstract class PanelMenu extends JPanel{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	int buttonPosx, buttonPosy, buttonSpace;
 	int buttonWidth, buttonHeight;
+	int numBotones;
 	int[][] menus;
-	private String[] btnText;
-	private boolean[] btnEstados;
-	private MenuControlador controlador;
-	
-	public MenuInvaders(int ventanatx, int ventanaty, JFrame frame, MenuControlador menuControlador){
-		int numBotones;
-		frame.setBackground(Color.BLACK);
+	protected String[] btnText;
+	protected boolean[] btnEstados;
+	protected MenuControlador controlador;
+	private JFrame frame;
+	private MenuKeyListener lisenner;
+
+	PanelMenu(int ventanatx, int ventanaty, JFrame frame, MenuControlador menuControlador){
+		this.frame = frame;
+		setBackground(frame.getBackground());
 		buttonSpace = 20;
 		buttonWidth = 240;
 		buttonHeight = 40;
 		buttonPosx = ventanatx / 2 - buttonWidth / 2;
 		buttonPosy = buttonSpace;
-		numBotones = 4;
-		menus = new int[numBotones][4];
-		String[] auxBtnText = {"Nuevo juego", "Personalizar partida", "Créditos", "Salir"};
-		btnEstados = new boolean[numBotones];
-		crearEstado(numBotones);
-		btnText = auxBtnText;
-		createButtons(numBotones);
-		
-		this.controlador = menuControlador;
-		
-		MenuKeyInvaders lisenner = new MenuKeyInvaders(this);
-		frame.requestFocus();
+		this.controlador = menuControlador;	
+		lisenner = new MenuKeyListener(this);		
 		frame.addKeyListener(lisenner);
-		
-	}
-	
-	private void crearEstado(int num) {
-		num --;
-		if (num < 1){
-			btnEstados[num] = true;
-		} else {
-			btnEstados[num] = false;
-			crearEstado(num);
-		}
-	}
-
-	private void createButtons(int num){
-		num--;
-		if (num < 1) {
-			int posy = buttonPosy + buttonSpace / 2;
-			int[] aux = {buttonPosx,posy,buttonWidth,buttonHeight};
-			menus[num] = aux;
-		} else {
-			int posy = buttonHeight + buttonHeight * num + buttonSpace * (num) - buttonSpace;	
-			int[] aux = {buttonPosx,posy,buttonWidth,buttonHeight};
-			menus[num] = aux;			
-			createButtons(num);
-		}
+		frame.setFocusable(true);
 	}
 	
 	public void paintComponent(Graphics g){
-//        super.paintComponent(g);
+        super.paintComponent(g);
 		
 		g.setColor(Color.RED);
 		Color colorFill = new Color(31,31,31);
@@ -108,6 +71,41 @@ public class MenuInvaders extends JPanel{
 	        g2.drawString(btnText[i], textWidth, textHeight);
 		}
 	}
+	
+	protected void inicializarBotones(String[] auxBtnText) {
+		btnEstados = new boolean[numBotones];
+		crearEstado(numBotones);
+		btnText = auxBtnText;
+		createButtons(numBotones);	
+	}
+	
+	protected void crearEstado(int num) {
+		num--;
+		if (num < 1){
+			btnEstados[num] = true;
+		} else {
+			btnEstados[num] = false;
+			crearEstado(num);
+		}
+	}
+
+	protected void createButtons(int num){
+		num--;
+		if (num < 1) {
+			int posy = buttonPosy + buttonSpace / 2;
+			int[] aux = {buttonPosx,posy,buttonWidth,buttonHeight};
+			menus[num] = aux;
+		} else {
+			int posy = calcPosy(num);
+			int[] aux = {buttonPosx,posy,buttonWidth,buttonHeight};
+			menus[num] = aux;			
+			createButtons(num);
+		}
+	}
+	
+	protected int calcPosy(int num){
+		return buttonHeight + buttonHeight * num + buttonSpace * (num) - buttonSpace;	
+	}
 
 	public void keyPress(int keyCode) {
 		switch(keyCode){
@@ -130,26 +128,7 @@ public class MenuInvaders extends JPanel{
 		}
 	}
 
-	private void pulsaEnter(int keyCode) {
-		boolean encontradoActivo = false;
-		for(int i = 0; i < btnEstados.length && !encontradoActivo; i++){
-			if(btnEstados[i]){
-				encontradoActivo = true;
-				switch(i){
-					case 0:
-						controlador.setSalirMenu(true);
-						break;
-					case 1: 
-						personalizarPartida();
-						break;
-					
-				}
-			}
-		}
-		
-	}
-
-	private int buscarBotonActivo() {
+	protected int buscarBotonActivo() {
 		int activo = 0;
 		boolean salir = false;
 		for (int i = 0; i < btnEstados.length && !salir; i++ ) {
@@ -180,11 +159,10 @@ public class MenuInvaders extends JPanel{
 		activo--;
 		btnEstados[activo] = true;
 	}
-
-	public void personalizarPartida() {
-		JFileChooser elegir = new JFileChooser();
-		elegir.showOpenDialog(this);
-		File fichero = elegir.getSelectedFile();
-		controlador.personalizarPartida(fichero);
+	
+	protected abstract void pulsaEnter(int keyCode);
+	
+	public MenuKeyListener getMyKeyListener(){
+		return lisenner;
 	}
 }

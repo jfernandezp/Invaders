@@ -1,5 +1,6 @@
 package invaders.menu;
 
+import java.awt.BorderLayout;
 import java.io.File;
 
 import guardados.Cargar;
@@ -10,14 +11,20 @@ import javax.swing.JPanel;
 
 public class MenuControlador {
 
-	private MenuInvaders panel;
+	private JPanel panel;
 	private int velocidadBucle;
 	private boolean salirMenu;
 	private Estado estado;
+	private JFrame frame;
+	private int ventanatx, ventanaty;
 
 	public MenuControlador(int ventanatx, int ventanaty, JFrame frame) {
-		panel = new MenuInvaders(ventanatx,ventanaty,frame,this);
+		this.frame = frame;
+		this.ventanatx = ventanatx;
+		this.ventanaty = ventanaty;
 		velocidadBucle = 100;
+        mostrarMenu();
+        bucle();
 	}
 
 	public JPanel getPanel() {
@@ -29,10 +36,10 @@ public class MenuControlador {
 		while(!salirMenu){
 			try {
 				Thread.sleep(velocidadBucle);
+				
 				panel.repaint();
 			} catch (InterruptedException e) {
-				//
-			}			
+			}
 		}
 	}
 
@@ -49,4 +56,32 @@ public class MenuControlador {
 		return estado;
 	}
 
+	public void showCredits() {
+		removePanel();
+		
+		JPanel tmppanel = new PanelCreditos(ventanatx, ventanaty, frame, this);
+		panel = tmppanel;
+    	frame.add(this.panel, BorderLayout.CENTER);	
+    	frame.paintAll(frame.getGraphics());
+		
+	}
+
+	public void mostrarMenu() {
+		removePanel();
+		
+		JPanel tmppanel = new MenuPrincipal(ventanatx,ventanaty,frame,this);
+		panel = tmppanel;
+    	frame.add(this.panel, BorderLayout.CENTER);
+    	frame.paintAll(frame.getGraphics());
+	}
+
+	private void removePanel(){
+		try { MenuKeyListener getMyKeyListener = ((PanelMenu) panel).getMyKeyListener();
+		frame.removeKeyListener(getMyKeyListener);
+		} catch (NullPointerException e){
+			
+		}
+		panel = null;
+		
+	}
 }

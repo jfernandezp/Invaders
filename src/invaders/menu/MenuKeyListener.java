@@ -3,12 +3,12 @@ package invaders.menu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class MenuKeyInvaders implements KeyListener {
+public class MenuKeyListener implements KeyListener {
 
-	private MenuInvaders controller;
+	private PanelMenu controller;
 
-	public MenuKeyInvaders(MenuInvaders menuInvaders) {
-		controller = menuInvaders;
+	public MenuKeyListener(PanelMenu menuPanel) {
+		controller = menuPanel;
 	}
 
 	@Override

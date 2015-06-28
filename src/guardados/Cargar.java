@@ -72,19 +72,23 @@ public class Cargar {
 	public void iniciarCarga(File fichero){
 		JSONParser parser = new JSONParser();
 		try {
-			 
-			Object obj = parser.parse(new FileReader(fichero));
-	 
-			jsonObject = (JSONObject) obj;
-		} catch (FileNotFoundException e) {
-			System.out.println("Fichero no encontrado. Cargando datos por defecto");
-		} catch (IOException e) {
-			System.out.println("Error de entrada o salida. Cargando datos por defecto");
-		} catch (ParseException e) {
-			System.out.println("Error al interpretar el fichero. Cargando datos por defecto");
+			try {			 
+				Object obj = parser.parse(new FileReader(fichero));
+		 
+				jsonObject = (JSONObject) obj;
+			} catch (FileNotFoundException e) {
+				System.out.println("Fichero no encontrado. Cargando datos por defecto");
+			} catch (IOException e) {
+				System.out.println("Error de entrada o salida. Cargando datos por defecto");
+			} catch (ParseException e) {
+				System.out.println("Error al interpretar el fichero. Cargando datos por defecto");
+			}
+			obtenerDatosFichero();	
+		} catch (NullPointerException e){
+			
 		}
 		
-		obtenerDatosFichero();		 
+			 
     }
 	
 	private void obtenerDatosFichero(){
