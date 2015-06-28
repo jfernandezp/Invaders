@@ -52,6 +52,10 @@ public class MenuControlador {
 		estado = new Estado(carga.getNivel(),carga.getVidas(),carga.getMaxVidas(),carga.getPuntos(),carga.getVelocidad(),carga.getDisparoCercano(),carga.getDisparoEstructura(),carga.getDisparoAzar());	
 	}
 	
+	public void salir(){
+		System.exit(0);
+	}
+	
 	public Estado getEstado(){
 		return estado;
 	}

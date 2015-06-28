@@ -40,6 +40,9 @@ public class MenuPrincipal extends PanelMenu{
 			case 2:
 				controlador.showCredits();
 				break;
+			case 3:
+				controlador.salir();
+				break;
 		}		
 	}
 
