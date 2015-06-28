@@ -1,5 +1,8 @@
 package invaders.menu;
 
+import java.io.File;
+
+import guardados.Cargar;
 import invaders.estado.Estado;
 
 import javax.swing.JFrame;
@@ -10,6 +13,7 @@ public class MenuControlador {
 	private MenuInvaders panel;
 	private int velocidadBucle;
 	private boolean salirMenu;
+	private Estado estado;
 
 	public MenuControlador(int ventanatx, int ventanaty, JFrame frame) {
 		panel = new MenuInvaders(ventanatx,ventanaty,frame,this);
@@ -18,10 +22,6 @@ public class MenuControlador {
 
 	public JPanel getPanel() {
 		return panel;
-	}
-
-	public Estado getEstado() {
-		return panel.getEstado();
 	}
 	
 	public void bucle(){
@@ -38,6 +38,15 @@ public class MenuControlador {
 
 	public void setSalirMenu(boolean b) {
 		salirMenu = b;		
+	}
+
+	public void personalizarPartida(File fichero) {
+		Cargar carga = new Cargar(fichero);		
+		estado = new Estado(carga.getNivel(),carga.getVidas(),carga.getMaxVidas(),carga.getPuntos(),carga.getVelocidad(),carga.getDisparoCercano(),carga.getDisparoEstructura(),carga.getDisparoAzar());	
+	}
+	
+	public Estado getEstado(){
+		return estado;
 	}
 
 }

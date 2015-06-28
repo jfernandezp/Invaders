@@ -23,7 +23,6 @@ public class MenuInvaders extends JPanel{
 	int[][] menus;
 	private String[] btnText;
 	private boolean[] btnEstados;
-	private Estado estado;
 	private MenuControlador controlador;
 	
 	public MenuInvaders(int ventanatx, int ventanaty, JFrame frame, MenuControlador menuControlador){
@@ -186,11 +185,6 @@ public class MenuInvaders extends JPanel{
 		JFileChooser elegir = new JFileChooser();
 		elegir.showOpenDialog(this);
 		File fichero = elegir.getSelectedFile();
-		Cargar carga = new Cargar(fichero);		
-		estado = new Estado(carga.getNivel(),carga.getVidas(),carga.getMaxVidas(),carga.getPuntos(),carga.getVelocidad(),carga.getDisparoCercano(),carga.getDisparoEstructura(),carga.getDisparoAzar());
-	}
-	
-	public Estado getEstado(){
-		return estado;
+		controlador.personalizarPartida(fichero);
 	}
 }
