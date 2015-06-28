@@ -2,7 +2,6 @@ package invaders.estado;
 
 public class Estado extends EstadoDefecto{
 	
-	int puntos;
 	int limitey;
 		
 	private boolean finJuego = false;

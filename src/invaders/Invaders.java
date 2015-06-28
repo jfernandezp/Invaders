@@ -18,6 +18,7 @@ public class Invaders {
 	private JFrame frame;
 	private JPanel panel;
 	private Estado estado;
+	private Color backgroundColor = Color.BLACK;
 	
 	//Paso 2b
 	public Invaders(){
@@ -38,6 +39,7 @@ public class Invaders {
 		this.estado = estado;
 		iniciarTamano();
 		frame.setSize(ventanatx,ventanaty);	
+		frame.setBackground(backgroundColor);
 		iniciarPanelMenu(frame,panel);
         iniciarInvaderPanel(this.estado);
 	}
@@ -56,7 +58,7 @@ public class Invaders {
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setTitle(titulo);
-        frame.setBackground(Color.BLACK);
+        frame.setBackground(backgroundColor);
 	}
 	
 	//Paso 3
