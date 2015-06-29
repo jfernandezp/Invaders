@@ -12,6 +12,8 @@ public abstract class PanelMenu extends JPanel{
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+	
 	int buttonPosx, buttonPosy, buttonSpace;
 	int buttonWidth, buttonHeight;
 	int numBotones;
@@ -19,11 +21,9 @@ public abstract class PanelMenu extends JPanel{
 	protected String[] btnText;
 	protected boolean[] btnEstados;
 	protected MenuControlador controlador;
-	private JFrame frame;
 	private MenuKeyListener lisenner;
 
 	PanelMenu(int ventanatx, int ventanaty, JFrame frame, MenuControlador menuControlador){
-		this.frame = frame;
 		setBackground(frame.getBackground());
 		buttonSpace = 20;
 		buttonWidth = 240;

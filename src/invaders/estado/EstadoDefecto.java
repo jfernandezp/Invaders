@@ -15,7 +15,6 @@ public class EstadoDefecto {
 	}
 
 	public int getPuntos() {
-		System.out.println(puntos);
 		return puntos;
 	}
 

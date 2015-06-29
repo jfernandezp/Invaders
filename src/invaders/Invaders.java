@@ -47,7 +47,7 @@ public class Invaders {
 	//Paso 2a
 	public void iniciarTamano(){
 		ventanatx = 700;
-        ventanaty = 500;
+        ventanaty = 600;
 	}
 	
 	//paso 2a2
