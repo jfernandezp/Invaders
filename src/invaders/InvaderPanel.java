@@ -66,6 +66,8 @@ public class InvaderPanel extends JPanel {
 	private MenuInGame menu;
     
     private static Random r = new Random();
+    
+    private boolean inicializado = false;
       
     public InvaderPanel(final int ventanatx, int ventanaty, Estado estado){
     	
@@ -87,11 +89,15 @@ public class InvaderPanel extends JPanel {
         setBackground(Color.BLACK);
         //Menu
         menu = new MenuInGame(ventanatx);
+        menu.pulsoPausa(estado.getPausa());
+        InvadersMenuInGameKeyListener listenerMenuIngame = new InvadersMenuInGameKeyListener(this);
+        addKeyListener(listenerMenuIngame);
    
         //Listener
         InvaderKeyListener listener = new InvaderKeyListener(this,this.estado);    
         addKeyListener(listener);
         setFocusable(true);
+        this.setVisible(true);
     }
     
     protected void moverIzquierda(){
@@ -115,11 +121,20 @@ public class InvaderPanel extends JPanel {
     }
     
     protected void pulsoPausa(){
+    	boolean pausa = true;
         if (estado.getPausa()) {
-            estado.setPausa(false);
-        } else {
-        	estado.setPausa(true);
-        }
+            pausa = false;
+        } 
+        estado.setPausa(pausa);
+        menu.pulsoPausa(pausa);
+    }
+    
+    protected void pulsoGuardar(){
+    	menu.pulsoGuardar();
+    }
+    
+    protected void pulsoMenu(){
+    	menu.pulsoMenu();
     }
     
     protected void lanzoDisparo(){
@@ -129,9 +144,7 @@ public class InvaderPanel extends JPanel {
 
 
 	public void setEstado(int nivel, int vidas, int maxVidas, int velocidad,
-			int disparoCercano, int disparoEstructura, int disparoAzar) {
-		// TODO Apéndice de método generado automáticamente
-		
+			int disparoCercano, int disparoEstructura, int disparoAzar) {		
 	}
       
     //Bucle del juego:
@@ -143,9 +156,9 @@ public class InvaderPanel extends JPanel {
 				//
 			}
 	        
-	        if (!estado.getPausa()){
-	            super.repaint();
-	        	
+	        super.repaint();
+	        
+	        if (!estado.getPausa()){	        	
 	        	comprobarEstado();
 	        	
 	            intentarBajarFila(1); 
@@ -179,23 +192,26 @@ public class InvaderPanel extends JPanel {
     public void paintComponent(Graphics g){
 		super.paintComponent(g);
         
-        g.setColor(Color.WHITE);
-        
-        Graphics2D g2=(Graphics2D) g;
-        pintarLetras(g2);
-        
         menu.pintarMenu(g);
         
-        pintarEstructuras(g);
-           
-        pintarAtacantes(g);      
-           
-        pintarDefensa(g);
-        
-        pintarDisparosAtacantes(g);
-
-        pintarDisparosDefensa(g);
-               
+//        if(!estado.getPausa() || !inicializado) {
+//        	inicializado = true;
+//        	
+	        g.setColor(Color.WHITE);
+	        
+	        Graphics2D g2=(Graphics2D) g;
+	        pintarLetras(g2);
+	        
+	        pintarEstructuras(g);
+	           
+	        pintarAtacantes(g);      
+	           
+	        pintarDefensa(g);
+	        
+	        pintarDisparosAtacantes(g);
+	
+	        pintarDisparosDefensa(g);
+//    	}
      }
   
     private void pintarLetras(Graphics2D g2){

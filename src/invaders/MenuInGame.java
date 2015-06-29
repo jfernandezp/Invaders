@@ -8,10 +8,9 @@ import java.awt.Graphics2D;
 public class MenuInGame {
 	Boton[] elementos;
 	MenuInGame(int ventanatx){
-	    	//Pausa
-	    	//Salir al menú
-	    	//Guardar
-	    	//reiniciar 
+	    	//Pausa = 0
+			//Guardar = 1
+	    	//Salir al menú = 2
 	    	
 	    	int posx, posy;
 	    	int tx, ty;
@@ -32,6 +31,7 @@ public class MenuInGame {
 		private int posx, posy, width, height;
 		private String texto;
 		private Color color, colorLine, colorText;
+		private boolean activo = false;
 		
 		Boton(int posx, int posy, int tx, int ty, String texto){
 			this.posx = posx;
@@ -43,6 +43,7 @@ public class MenuInGame {
 		}
 		
 		public void setActivo(boolean b){
+			activo = b;
 			if (b){
 				this.color = Color.WHITE;
 				this.colorLine = Color.RED;
@@ -85,6 +86,10 @@ public class MenuInGame {
 		public String getTexto(){
 			return texto;
 		}
+
+		public boolean getActivo() {
+			return activo;
+		}
 		
 	}
 
@@ -102,5 +107,54 @@ public class MenuInGame {
 	        g2.drawString(elementos[i].getTexto(), elementos[i].getPosx() + 10, elementos[i].getPosy() + 20);
 		}
 		
+	}
+	
+	private int buscarActivo(){
+		boolean encontrado = false;
+		int indice = 0;
+		for (int i = 0; i < elementos.length && !encontrado; i++){
+			if (elementos[i].getActivo()){
+				encontrado = true;
+				indice = i;
+			}
+		}
+		return indice;
+	}
+
+	public void pulsoPausa() {
+//		elementos[buscarActivo()].setActivo(false);
+//		elementos[0].setActivo(true);	
+	}
+
+	public void pulsoPausa(boolean pausa) {
+		elementos[0].setActivo(pausa);
+		
+	}
+
+	public void pulsoGuardar() {
+//		elementos[buscarActivo()].setActivo(false);
+//		elementos[1].setActivo(true);		
+	}
+
+	public void pulsoMenu() {
+//		elementos[buscarActivo()].setActivo(false);
+//		elementos[2].setActivo(true);		
+	}
+
+	
+	//Sin uso
+	public void OpcionDerecha() {
+		int activo = buscarActivo();
+		elementos[activo].setActivo(false);
+		activo = elementoDerecha(activo);
+		elementos[activo].setActivo(true);
+	}	
+	//Sin uso
+	private int elementoDerecha(int activo) {
+		activo++;
+		if (activo > elementos.length){
+			activo = 0;
+		}
+		return activo;
 	}
 }

@@ -79,6 +79,7 @@ public class Invaders {
 	
 	public void iniciarInvaderPanel(Estado estado){
 		//Borro el panel anterior
+		panel.setFocusable(false);
 		frame.getContentPane().remove(panel);
 		panel = null;
 		//Añado el nuevo panel

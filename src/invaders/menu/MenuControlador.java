@@ -42,7 +42,7 @@ public class MenuControlador {
 			}
 		}
 		MenuKeyListener getMyKeyListener = ((PanelMenu) panel).getMyKeyListener();
-		frame.removeKeyListener(getMyKeyListener);		
+		frame.removeKeyListener(getMyKeyListener);
 	}
 
 	public void setSalirMenu(boolean b) {
@@ -83,6 +83,7 @@ public class MenuControlador {
 
 	private void removePanel(){
 		try { 
+			panel.setFocusable(false);
 			MenuKeyListener getMyKeyListener = ((PanelMenu) panel).getMyKeyListener();
 			frame.removeKeyListener(getMyKeyListener);
 		} catch (NullPointerException e){
