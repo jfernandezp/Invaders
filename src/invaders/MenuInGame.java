@@ -37,7 +37,7 @@ public class MenuInGame {
 	    			widthDialogo, heightDialogo, textoDialogo);
 	}
 	
-	private class Boton{
+	protected class Boton{
 		private int posx, posy, width, height;
 		private String texto;
 		private Color color, colorLine, colorText;
@@ -97,8 +97,16 @@ public class MenuInGame {
 			return texto;
 		}
 
-		boolean getActivo() {
+		boolean isActivo() {
 			return activo;
+		}
+
+		public void switchActivo() {
+			if(isActivo()){
+				setActivo(false);
+			} else {
+				setActivo (true);
+			}
 		}		
 	}
 	
@@ -107,6 +115,7 @@ public class MenuInGame {
 		private Color color, colorText, colorLine;
 		private String texto;
 		private boolean activo = false;
+		private Boton[] botones;
 		
 		Dialogo(){
 			setActivo(false);
@@ -120,7 +129,18 @@ public class MenuInGame {
 			posy = y;
 			width = w;
 			height = h;
-			texto = txt;		
+			texto = txt;	
+			int finx = posx + width;
+			int finy = posy + height;			 
+			this.botones = new Boton[2];
+			String[] text = {"Salir (Enter)", "Cancelar (Esc)"};
+			int btnwidth = 120;
+			int heightbtn = 30;
+			for (int i = 0; i < botones.length; i++){
+				int btnposx = (width / 3) * (i + 1) - btnwidth / 2 + posx;
+				int btnposy = posy + 50;
+				this.botones[i] = new Boton(btnposx, btnposy, btnwidth, heightbtn, text[i]);
+			}
 		}
 		
 		int getWidth() {
@@ -154,12 +174,26 @@ public class MenuInGame {
 		String getTexto(){
 			return texto;
 		}
-		public boolean isActivo() {
+		boolean isActivo() {
 			return activo;
 		}
-		public void setActivo(boolean activo) {
+		void setActivo(boolean activo) {
 			this.activo = activo;
 		}
+		
+		Boton[] getBotones(){
+			return botones;
+		}
+		public void switchActivo() {
+			if(isActivo()){
+				setActivo(false);
+			} else {
+				setActivo(true);
+			}
+			
+		}
+		
+		
 	}
 
 	public void pintarMenu(Graphics g) {
@@ -183,6 +217,15 @@ public class MenuInGame {
 			g.drawRect(dialogo.getPosx(),dialogo.getPosy(),dialogo.getWidth(),dialogo.getHeight());
 			g.setColor(dialogo.getColorText());
 	        g2.drawString(dialogo.getTexto(), dialogo.getPosx() + 20, dialogo.getPosy() + 20);
+	        Boton[] botones = dialogo.getBotones();
+	        for (int i = 0; i < botones.length; i++){
+				g.setColor(botones[i].getColor());
+				g.fillRect(botones[i].getPosx(),botones[i].getPosy(),botones[i].getWidth(),botones[i].getHeight());
+				g.setColor(botones[i].getColorLine());
+				g.drawRect(botones[i].getPosx(),botones[i].getPosy(),botones[i].getWidth(),botones[i].getHeight());
+				g.setColor(botones[i].getColorText());
+		        g2.drawString(botones[i].getTexto(), botones[i].getPosx() + 10, botones[i].getPosy() + 20);
+	        }
 		}
 	}
 	
@@ -190,7 +233,7 @@ public class MenuInGame {
 		boolean encontrado = false;
 		int indice = 0;
 		for (int i = 0; i < elementos.length && !encontrado; i++){
-			if (elementos[i].getActivo()){
+			if (elementos[i].isActivo()){
 				encontrado = true;
 				indice = i;
 			}
@@ -215,11 +258,24 @@ public class MenuInGame {
 
 	public void pulsoMenu() {
 //		elementos[buscarActivo()].setActivo(false);
-		elementos[2].setActivo(true);
-		dialogo.setActivo(true);
-//		controlador.salir();
+		elementos[2].switchActivo();
+		dialogo.switchActivo();
+		if(dialogo.isActivo()){
+			controlador.setPausa(true);
+		} else {
+			controlador.setPausa(false);
+		}
 	}
-
+	
+	public void pulsoEnter(){
+		if(dialogo.isActivo()){
+			controlador.salir();
+		}
+	}
+	
+	public void pulsoEscape(){
+		pulsoMenu();
+	}
 	
 	//Sin uso
 	public void OpcionDerecha() {

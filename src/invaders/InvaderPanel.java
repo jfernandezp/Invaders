@@ -142,7 +142,16 @@ public class InvaderPanel extends JPanel {
     protected void pulsoMenu(){
     	menu.pulsoMenu();
     }
-    
+
+	public void pulsoEscape() {
+		menu.pulsoEscape();
+	}
+
+	public void pulsoEnter() {
+		menu.pulsoEnter();		
+	}
+	
+	
     protected void lanzoDisparo(){
     	 int posx = defensax + defensatx/2 - xDD / 2;
          disparos.add(new Disparo(true, posx, posyDD, xDD, yDD));
@@ -597,5 +606,9 @@ public class InvaderPanel extends JPanel {
 	public void quitarLisener() {
 		removeKeyListener(listener);
 		removeKeyListener(listenerMenuIngame);
+	}
+
+	public void setPausa(boolean pausa) {
+		estado.setPausa(pausa);		
 	}
 }

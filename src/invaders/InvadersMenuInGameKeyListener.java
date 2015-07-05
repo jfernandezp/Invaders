@@ -17,7 +17,12 @@ public class InvadersMenuInGameKeyListener implements KeyListener {
 			controlador.pulsoGuardar();
 		} else if (e.getKeyCode() == 77 ) { //Menú
 			controlador.pulsoMenu();
-		} /*else if (e.getKeyCode() == 20 ) { //Tabulador
+		} else if (e.getKeyCode() == 27) { // Escape
+			controlador.pulsoEscape();
+		} else if (e.getKeyCode() == 10) { //Enter
+			controlador.pulsoEnter();
+		}
+		/*else if (e.getKeyCode() == 20 ) { //Tabulador
 //			controlador.menuOpcionDerecha();
 		}*/
 		
