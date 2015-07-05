@@ -7,8 +7,11 @@ import java.awt.Graphics2D;
 
 public class MenuInGame {
 	Boton[] elementos;
+
 	private Dialogo dialogo;
-	MenuInGame(int ventanatx, int ventanaty){
+	private InvaderPanel controlador;
+	MenuInGame(InvaderPanel controlador, int ventanatx, int ventanaty){
+
 	    	//Pausa = 0
 			//Guardar = 1
 	    	//Salir al menú = 2
@@ -18,6 +21,7 @@ public class MenuInGame {
 	    	int numeroBotones = 3;
 	    	tx = 130;
 	    	ty = 30;
+	    	this.controlador = controlador;
 	    	elementos = new Boton[numeroBotones];
 	    	String[] textos = {"Pausa/Iniciar (P)", "Guardar (G)", "Ir al menú (M)"};
 	    	for (int i = 0; i < elementos.length; i++){
@@ -213,7 +217,7 @@ public class MenuInGame {
 //		elementos[buscarActivo()].setActivo(false);
 		elementos[2].setActivo(true);
 		dialogo.setActivo(true);
-		
+//		controlador.salir();
 	}
 
 	
