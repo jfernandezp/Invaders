@@ -9,11 +9,12 @@ public class Estado extends EstadoDefecto{
 	
 	private int entorno = 0; //0 = normal, 1 = test
 	
-	
 	public Estado(){
+		super();
 	}
 	
 	public Estado(int velocidad, int disparoCercano, int disparoEstructura, int disparoAzar, int limitey){
+		this();
 		puntos = 0;
 		nivel = 1;
 		vidas = 3;
@@ -26,6 +27,7 @@ public class Estado extends EstadoDefecto{
 	}
 	
 	Estado(int limitey){
+		this();
 		puntos = 0;
 		nivel = 1;
 		vidas = 3;
@@ -63,6 +65,7 @@ public class Estado extends EstadoDefecto{
 	}
 	
 	public void aumentarNivel(){
+		estadoAnterior = this;
 		nivel++;
 		if (nivel <= 10){
 			aumentarDificultad();
@@ -112,5 +115,9 @@ public class Estado extends EstadoDefecto{
 	
 	public int getEntorno(){
 		return entorno;
+	}
+	
+	public EstadoDefecto getEstadoAnterior(){
+		return estadoAnterior;
 	}
 }

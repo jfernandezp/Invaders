@@ -6,6 +6,9 @@ import invaders.graficos.Dialogo;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.File;
+
+import javax.swing.JFileChooser;
 
 public class MenuInGame {
 	Boton[] elementos;
@@ -83,19 +86,16 @@ public class MenuInGame {
 		return indice;
 	}
 
-	public void pulsoPausa() {
-//		elementos[buscarActivo()].setActivo(false);
-//		elementos[0].setActivo(true);	
-	}
-
 	public void pulsoPausa(boolean pausa) {
 		elementos[0].setActivo(pausa);
 		
 	}
 
 	public void pulsoGuardar() {
-//		elementos[buscarActivo()].setActivo(false);
-//		elementos[1].setActivo(true);		
+		JFileChooser elegir = new JFileChooser();
+		elegir.showSaveDialog(controlador);
+		File fichero = elegir.getSelectedFile();
+		controlador.guardarPartida(fichero);	
 	}
 
 	public void pulsoMenu() {

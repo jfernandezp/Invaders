@@ -2,9 +2,11 @@ package invaders.estado;
 
 public class EstadoDefecto {
 	
-	protected int puntos, nivel, vidas, maxVidas, velocidad, disparoCercano, disparoEstructura, disparoAzar;;
+	protected int puntos, nivel, vidas, maxVidas, velocidad, disparoCercano, disparoEstructura, disparoAzar;
+	protected EstadoDefecto estadoAnterior;;
 
-	public EstadoDefecto(){		
+	public EstadoDefecto(){
+		estadoAnterior = this;
 		nivel = 1;
 		vidas = 3;
 		maxVidas = 6;

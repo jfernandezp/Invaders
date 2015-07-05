@@ -1,5 +1,6 @@
 package invaders;
    
+import guardados.Guardar;
 import invaders.estado.Estado;
 import invaders.objetos.Atacante;
 import invaders.objetos.Disparo;
@@ -9,6 +10,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -136,7 +138,9 @@ public class InvaderPanel extends JPanel {
     }
     
     protected void pulsoGuardar(){
+    	pulsoPausa();
     	menu.pulsoGuardar();
+    	pulsoPausa();
     }
     
     protected void pulsoMenu(){
@@ -610,5 +614,11 @@ public class InvaderPanel extends JPanel {
 
 	public void setPausa(boolean pausa) {
 		estado.setPausa(pausa);		
+	}
+
+	public void guardarPartida(File fichero) {
+		try{
+			new Guardar(fichero,estado.getEstadoAnterior());
+		} catch (Exception e){}
 	}
 }
