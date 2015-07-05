@@ -7,7 +7,8 @@ import java.awt.Graphics2D;
 
 public class MenuInGame {
 	Boton[] elementos;
-	MenuInGame(int ventanatx){
+	private Dialogo dialogo;
+	MenuInGame(int ventanatx, int ventanaty){
 	    	//Pausa = 0
 			//Guardar = 1
 	    	//Salir al menú = 2
@@ -25,6 +26,11 @@ public class MenuInGame {
 				elementos[i] = new Boton(posx,posy,tx,ty,textos[i]);
 	    	}
 	    	elementos[0].setActivo(true);
+	    	int widthDialogo = 395;
+	    	int heightDialogo = 100;
+	    	String textoDialogo = "¿De verdad quieres salir del juego e ir al menú?";
+	    	dialogo = new Dialogo(ventanatx / 2 - widthDialogo / 2, ventanaty / 2 - heightDialogo / 2,
+	    			widthDialogo, heightDialogo, textoDialogo);
 	}
 	
 	private class Boton{
@@ -42,7 +48,7 @@ public class MenuInGame {
 			this.setActivo(false);
 		}
 		
-		public void setActivo(boolean b){
+		void setActivo(boolean b){
 			activo = b;
 			if (b){
 				this.color = Color.WHITE;
@@ -55,42 +61,101 @@ public class MenuInGame {
 			}
 		}
 
-		public int getWidth() {
+		int getWidth() {
 			return width;
 		}
 
-		public int getPosy() {
+		int getPosy() {
 			return posy;
 		}
 
-		public int getPosx() {
+		int getPosx() {
 			return posx;
 		}
 
-		public int getHeight() {
+		int getHeight() {
 			return height;
 		}
 		
-		public Color getColor(){
+		Color getColor(){
 			return color;
 		}
 		
-		public Color getColorLine(){
+		Color getColorLine(){
 			return colorLine;
 		}
 		
-		public Color getColorText(){
+		Color getColorText(){
 			return colorText;
 		}
 		
-		public String getTexto(){
+		String getTexto(){
 			return texto;
 		}
 
-		public boolean getActivo() {
+		boolean getActivo() {
 			return activo;
+		}		
+	}
+	
+	private class Dialogo{
+		private int posx, posy, width, height;
+		private Color color, colorText, colorLine;
+		private String texto;
+		private boolean activo = false;
+		
+		Dialogo(){
+			setActivo(false);
+			this.color = new Color(31,31,31);
+			this.colorLine = Color.RED;
+			this.colorText = Color.WHITE;
+		}
+		Dialogo(int x, int y, int w, int h, String txt){
+			this();
+			posx = x;
+			posy = y;
+			width = w;
+			height = h;
+			texto = txt;		
 		}
 		
+		int getWidth() {
+			return width;
+		}
+
+		int getPosy() {
+			return posy;
+		}
+
+		int getPosx() {
+			return posx;
+		}
+
+		int getHeight() {
+			return height;
+		}
+		
+		Color getColor(){
+			return color;
+		}
+		
+		Color getColorLine(){
+			return colorLine;
+		}
+		
+		Color getColorText(){
+			return colorText;
+		}
+		
+		String getTexto(){
+			return texto;
+		}
+		public boolean isActivo() {
+			return activo;
+		}
+		public void setActivo(boolean activo) {
+			this.activo = activo;
+		}
 	}
 
 	public void pintarMenu(Graphics g) {
@@ -106,7 +171,15 @@ public class MenuInGame {
 			g.setColor(elementos[i].getColorText());
 	        g2.drawString(elementos[i].getTexto(), elementos[i].getPosx() + 10, elementos[i].getPosy() + 20);
 		}
-		
+		if (dialogo.isActivo()){
+			System.out.println("esta activo");
+			g.setColor(dialogo.getColor());
+			g.fillRect(dialogo.getPosx(), dialogo.getPosy(), dialogo.getWidth(), dialogo.getHeight());
+			g.setColor(dialogo.getColorLine());
+			g.drawRect(dialogo.getPosx(),dialogo.getPosy(),dialogo.getWidth(),dialogo.getHeight());
+			g.setColor(dialogo.getColorText());
+	        g2.drawString(dialogo.getTexto(), dialogo.getPosx() + 20, dialogo.getPosy() + 20);
+		}
 	}
 	
 	private int buscarActivo(){
@@ -138,7 +211,9 @@ public class MenuInGame {
 
 	public void pulsoMenu() {
 //		elementos[buscarActivo()].setActivo(false);
-//		elementos[2].setActivo(true);		
+		elementos[2].setActivo(true);
+		dialogo.setActivo(true);
+		
 	}
 
 	

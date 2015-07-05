@@ -67,8 +67,6 @@ public class InvaderPanel extends JPanel {
     
     private static Random r = new Random();
     
-    private boolean inicializado = false;
-      
     public InvaderPanel(final int ventanatx, int ventanaty, Estado estado){
     	
     	this.estado = estado;
@@ -88,7 +86,7 @@ public class InvaderPanel extends JPanel {
            
         setBackground(Color.BLACK);
         //Menu
-        menu = new MenuInGame(ventanatx);
+        menu = new MenuInGame(ventanatx,ventanaty);
         menu.pulsoPausa(estado.getPausa());
         InvadersMenuInGameKeyListener listenerMenuIngame = new InvadersMenuInGameKeyListener(this);
         addKeyListener(listenerMenuIngame);
@@ -192,26 +190,22 @@ public class InvaderPanel extends JPanel {
     public void paintComponent(Graphics g){
 		super.paintComponent(g);
         
-        menu.pintarMenu(g);
+        g.setColor(Color.WHITE);
         
-//        if(!estado.getPausa() || !inicializado) {
-//        	inicializado = true;
-//        	
-	        g.setColor(Color.WHITE);
-	        
-	        Graphics2D g2=(Graphics2D) g;
-	        pintarLetras(g2);
-	        
-	        pintarEstructuras(g);
-	           
-	        pintarAtacantes(g);      
-	           
-	        pintarDefensa(g);
-	        
-	        pintarDisparosAtacantes(g);
-	
-	        pintarDisparosDefensa(g);
-//    	}
+        Graphics2D g2=(Graphics2D) g;
+        pintarLetras(g2);
+        
+        pintarEstructuras(g);
+           
+        pintarAtacantes(g);      
+           
+        pintarDefensa(g);
+        
+        pintarDisparosAtacantes(g);
+
+        pintarDisparosDefensa(g);
+        
+        menu.pintarMenu(g);
      }
   
     private void pintarLetras(Graphics2D g2){
