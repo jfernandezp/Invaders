@@ -67,13 +67,18 @@ public class InvaderPanel extends JPanel {
     
     private static Random r = new Random();
     
-    private boolean inicializado = false;
+	private boolean salir;
+
+	private InvadersMenuInGameKeyListener listenerMenuIngame;
+
+	private InvaderKeyListener listener;
       
     public InvaderPanel(final int ventanatx, int ventanaty, Estado estado){
     	
     	this.estado = estado;
     	this.estado.setLimiteY(limitey);
     	this.estado.setPausa(true);
+    	salir = false;
     	    	
         defensatx=40;
         defensaty=20;
@@ -88,13 +93,13 @@ public class InvaderPanel extends JPanel {
            
         setBackground(Color.BLACK);
         //Menu
-        menu = new MenuInGame(ventanatx);
+        menu = new MenuInGame(this, ventanatx);
         menu.pulsoPausa(estado.getPausa());
-        InvadersMenuInGameKeyListener listenerMenuIngame = new InvadersMenuInGameKeyListener(this);
+        listenerMenuIngame = new InvadersMenuInGameKeyListener(this);
         addKeyListener(listenerMenuIngame);
    
         //Listener
-        InvaderKeyListener listener = new InvaderKeyListener(this,this.estado);    
+        listener = new InvaderKeyListener(this,this.estado);    
         addKeyListener(listener);
         setFocusable(true);
         this.setVisible(true);
@@ -149,7 +154,7 @@ public class InvaderPanel extends JPanel {
       
     //Bucle del juego:
     public void bucle() {
-    	while(!estado.getFinJuego()){
+    	while(!estado.getFinJuego() && !this.salir){
 	        try {
 				Thread.sleep(1000/estado.getVelocidad());
 			} catch (InterruptedException e) {
@@ -587,4 +592,13 @@ public class InvaderPanel extends JPanel {
   
         return disparo;
     }
+
+	public void salir() {
+		salir = true;
+	}
+
+	public void quitarLisener() {
+		removeKeyListener(listener);
+		removeKeyListener(listenerMenuIngame);
+	}
 }

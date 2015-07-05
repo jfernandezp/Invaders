@@ -28,20 +28,24 @@ public class Invaders {
 	//Paso 2b
 	public Invaders(String titulo){
 		this();
-		this.estado = new Estado();
 		createFrame(titulo);
-		iniciarPanelMenu();
-        iniciarInvaderPanel(estado);
+		while(true){
+			this.estado = new Estado();
+			iniciarPanelMenu();
+			iniciarInvaderPanel(estado);
+		}
 	}
 	
-	public Invaders(JFrame frame, JPanel panel, Estado estado){
+	public Invaders(JFrame frame, JPanel panel){
 		this();
-		this.estado = estado;
 		iniciarTamano();
-		frame.setSize(ventanatx,ventanaty);	
-		frame.setBackground(backgroundColor);
-		iniciarPanelMenu(frame,panel);
-        iniciarInvaderPanel(this.estado);
+		while(true){
+			this.estado = new Estado();
+			frame.setSize(ventanatx,ventanaty);	
+			frame.setBackground(backgroundColor);
+			iniciarPanelMenu(frame,panel);
+		    iniciarInvaderPanel(this.estado);
+		}
 	}
 	
 	//Paso 2a
@@ -88,6 +92,10 @@ public class Invaders {
         invadersPanel.requestFocus();        
         frame.paintAll(frame.getGraphics());
 		invadersPanel.bucle();
+		invadersPanel.quitarLisener();
+		invadersPanel.setFocusable(false);
+		frame.getContentPane().remove(invadersPanel);
+		invadersPanel = null;
 	}
 	
 	

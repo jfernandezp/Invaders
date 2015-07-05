@@ -1,8 +1,6 @@
 package launcher;
 
 import invaders.Invaders;
-import invaders.estado.Estado;
-
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -27,7 +25,6 @@ public class InvadersLauncher {
         int ventanaty = 500;
 		
 		String titulo = "Invaders";
-		Estado estado = new Estado();
 		
 		generateGUI(titulo,ventanatx,ventanaty);
 		
@@ -44,7 +41,7 @@ public class InvadersLauncher {
 			
 			frame.getContentPane().remove(panel);
 			panel = null;
-			Invaders invaders = new Invaders(frame,panel,estado);
+			new Invaders(frame,panel);
 			
 		} catch (Exception e) {
 //			e.printStackTrace();
