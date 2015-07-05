@@ -1,5 +1,7 @@
 package invaders.menu;
 
+import invaders.graficos.Boton;
+
 import java.awt.Graphics;
 import java.io.File;
 
@@ -16,7 +18,7 @@ public class MenuPrincipal extends PanelMenu{
 	public MenuPrincipal(int ventanatx, int ventanaty, JFrame frame, MenuControlador menuControlador){
 		super(ventanatx,ventanaty,frame,menuControlador);
 		numBotones = 4;
-		menus = new int[numBotones][4];
+		botones = new Boton[numBotones];
 		String[] auxBtnText = {"Nuevo juego", "Personalizar partida", "Créditos", "Salir"};
 		inicializarBotones(auxBtnText);		
 	}

@@ -1,6 +1,8 @@
 package invaders;
 
-import java.awt.Color;
+import invaders.graficos.Boton;
+import invaders.graficos.Dialogo;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -36,165 +38,6 @@ public class MenuInGame {
 	    	dialogo = new Dialogo(ventanatx / 2 - widthDialogo / 2, ventanaty / 2 - heightDialogo / 2,
 	    			widthDialogo, heightDialogo, textoDialogo);
 	}
-	
-	protected class Boton{
-		private int posx, posy, width, height;
-		private String texto;
-		private Color color, colorLine, colorText;
-		private boolean activo = false;
-		
-		Boton(int posx, int posy, int tx, int ty, String texto){
-			this.posx = posx;
-			this.posy = posy;
-			this.width = tx;
-			this.height = ty;
-			this.texto = texto;
-			this.setActivo(false);
-		}
-		
-		void setActivo(boolean b){
-			activo = b;
-			if (b){
-				this.color = Color.WHITE;
-				this.colorLine = Color.RED;
-				this.colorText = Color.BLACK;
-			} else {
-				this.color = new Color(31,31,31);
-				this.colorLine = Color.RED;
-				this.colorText = Color.WHITE;
-			}
-		}
-
-		int getWidth() {
-			return width;
-		}
-
-		int getPosy() {
-			return posy;
-		}
-
-		int getPosx() {
-			return posx;
-		}
-
-		int getHeight() {
-			return height;
-		}
-		
-		Color getColor(){
-			return color;
-		}
-		
-		Color getColorLine(){
-			return colorLine;
-		}
-		
-		Color getColorText(){
-			return colorText;
-		}
-		
-		String getTexto(){
-			return texto;
-		}
-
-		boolean isActivo() {
-			return activo;
-		}
-
-		public void switchActivo() {
-			if(isActivo()){
-				setActivo(false);
-			} else {
-				setActivo (true);
-			}
-		}		
-	}
-	
-	private class Dialogo{
-		private int posx, posy, width, height;
-		private Color color, colorText, colorLine;
-		private String texto;
-		private boolean activo = false;
-		private Boton[] botones;
-		
-		Dialogo(){
-			setActivo(false);
-			this.color = new Color(31,31,31);
-			this.colorLine = Color.RED;
-			this.colorText = Color.WHITE;
-		}
-		Dialogo(int x, int y, int w, int h, String txt){
-			this();
-			posx = x;
-			posy = y;
-			width = w;
-			height = h;
-			texto = txt;	
-			int finx = posx + width;
-			int finy = posy + height;			 
-			this.botones = new Boton[2];
-			String[] text = {"Salir (Enter)", "Cancelar (Esc)"};
-			int btnwidth = 120;
-			int heightbtn = 30;
-			for (int i = 0; i < botones.length; i++){
-				int btnposx = (width / 3) * (i + 1) - btnwidth / 2 + posx;
-				int btnposy = posy + 50;
-				this.botones[i] = new Boton(btnposx, btnposy, btnwidth, heightbtn, text[i]);
-			}
-		}
-		
-		int getWidth() {
-			return width;
-		}
-
-		int getPosy() {
-			return posy;
-		}
-
-		int getPosx() {
-			return posx;
-		}
-
-		int getHeight() {
-			return height;
-		}
-		
-		Color getColor(){
-			return color;
-		}
-		
-		Color getColorLine(){
-			return colorLine;
-		}
-		
-		Color getColorText(){
-			return colorText;
-		}
-		
-		String getTexto(){
-			return texto;
-		}
-		boolean isActivo() {
-			return activo;
-		}
-		void setActivo(boolean activo) {
-			this.activo = activo;
-		}
-		
-		Boton[] getBotones(){
-			return botones;
-		}
-		public void switchActivo() {
-			if(isActivo()){
-				setActivo(false);
-			} else {
-				setActivo(true);
-			}
-			
-		}
-		
-		
-	}
 
 	public void pintarMenu(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -202,6 +45,7 @@ public class MenuInGame {
 		Font f = new  Font ("SansSerif", Font.BOLD, fontSize); 
         g2.setFont(f);
 		for (int i = 0; i < elementos.length; i++){
+			System.out.println(elementos[i].getColor());
 			g.setColor(elementos[i].getColor());
 			g.fillRect(elementos[i].getPosx(),elementos[i].getPosy(),elementos[i].getWidth(),elementos[i].getHeight());
 			g.setColor(elementos[i].getColorLine());

@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import invaders.graficos.Boton;
+
 public abstract class PanelMenu extends JPanel{
 	/**
 	 * 
@@ -17,7 +19,8 @@ public abstract class PanelMenu extends JPanel{
 	int buttonPosx, buttonPosy, buttonSpace;
 	int buttonWidth, buttonHeight;
 	int numBotones;
-	int[][] menus;
+//	int[][] menus;
+	Boton[] botones;
 	protected String[] btnText;
 	protected boolean[] btnEstados;
 	protected MenuControlador controlador;
@@ -50,7 +53,7 @@ public abstract class PanelMenu extends JPanel{
 		Font f = new  Font ("SansSerif", Font.BOLD, fontSize); 
         g2.setFont(f);
 
-        for (int i = 0; i < menus.length; i++){
+        for (int i = 0; i < botones.length; i++){
         	Color colorFondo;
         	Color colorLetra;
         	if (btnEstados[i]){
@@ -61,14 +64,14 @@ public abstract class PanelMenu extends JPanel{
         		colorLetra = colorText;
         	}
 			g.setColor(colorFondo);
-			g.fillRect(menus[i][0], menus[i][1], menus[i][2], menus[i][3]);
+			g.fillRect(botones[i].getPosx(), botones[i].getPosy(), botones[i].getWidth(), botones[i].getHeight());
 			g.setColor(colorLine);
-			g.drawRect(menus[i][0], menus[i][1], menus[i][2], menus[i][3]);
+			g.drawRect(botones[i].getPosx(), botones[i].getPosy(), botones[i].getWidth(), botones[i].getHeight());
 
 			g.setColor(colorLetra);
-			int textWidth = menus[i][0] + 20;
-			int textHeight = menus[i][1] + menus[i][3] / 2 + fontSize / 3;
-	        g2.drawString(btnText[i], textWidth, textHeight);
+			int textposx = botones[i].getPosx() + 20;
+			int textposy = botones[i].getPosy() + botones[i].getHeight() / 2 + fontSize / 3;
+	        g2.drawString(botones[i].getTexto(), textposx, textposy);
 		}
 	}
 	
@@ -76,7 +79,7 @@ public abstract class PanelMenu extends JPanel{
 		btnEstados = new boolean[numBotones];
 		crearEstado(numBotones);
 		btnText = auxBtnText;
-		createButtons(numBotones);	
+		createButtons(numBotones, auxBtnText);	
 	}
 	
 	protected void crearEstado(int num) {
@@ -89,17 +92,19 @@ public abstract class PanelMenu extends JPanel{
 		}
 	}
 
-	protected void createButtons(int num){
+	protected void createButtons(int num, String[] auxBtnText){
 		num--;
 		if (num < 1) {
 			int posy = buttonPosy + buttonSpace / 2;
-			int[] aux = {buttonPosx,posy,buttonWidth,buttonHeight};
-			menus[num] = aux;
+//			int[] aux = {buttonPosx,posy,buttonWidth,buttonHeight};
+//			menus[num] = aux;
+			botones[num] = new Boton(buttonPosx, posy, buttonWidth, buttonHeight, auxBtnText[num]);
 		} else {
 			int posy = calcPosy(num);
-			int[] aux = {buttonPosx,posy,buttonWidth,buttonHeight};
-			menus[num] = aux;			
-			createButtons(num);
+//			int[] aux = {buttonPosx,posy,buttonWidth,buttonHeight};
+//			menus[num] = aux;	
+			botones[num] = new Boton(buttonPosx, posy, buttonWidth, buttonHeight, auxBtnText[num]);
+			createButtons(num,auxBtnText);
 		}
 	}
 	

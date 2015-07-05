@@ -1,5 +1,7 @@
 package invaders.menu;
 
+import invaders.graficos.Boton;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -17,7 +19,7 @@ public class PanelCreditos extends PanelMenu {
 	public PanelCreditos(int ventanatx, int ventanaty, JFrame frame, MenuControlador menuControlador){
 		super(ventanatx,ventanaty,frame,menuControlador);
 		numBotones = 1;
-		menus = new int[numBotones][4];
+		botones = new Boton[numBotones];
 		String[] auxBtnText = {"Atrás"};
 		inicializarBotones(auxBtnText);		
 	}
@@ -25,7 +27,7 @@ public class PanelCreditos extends PanelMenu {
 	public void paintComponent(Graphics g){
         super.paintComponent(g);
         
-        int i = menus.length;
+        int i = botones.length;
         int posyln1 = calcPosy(i);
         int posyln2 = calcPosy(i + 1);
         int posx = buttonPosx - 40;
