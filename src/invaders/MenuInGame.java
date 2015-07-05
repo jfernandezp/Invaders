@@ -45,7 +45,6 @@ public class MenuInGame {
 		Font f = new  Font ("SansSerif", Font.BOLD, fontSize); 
         g2.setFont(f);
 		for (int i = 0; i < elementos.length; i++){
-			System.out.println(elementos[i].getColor());
 			g.setColor(elementos[i].getColor());
 			g.fillRect(elementos[i].getPosx(),elementos[i].getPosy(),elementos[i].getWidth(),elementos[i].getHeight());
 			g.setColor(elementos[i].getColorLine());
@@ -54,7 +53,6 @@ public class MenuInGame {
 	        g2.drawString(elementos[i].getTexto(), elementos[i].getPosx() + 10, elementos[i].getPosy() + 20);
 		}
 		if (dialogo.isActivo()){
-			System.out.println("esta activo");
 			g.setColor(dialogo.getColor());
 			g.fillRect(dialogo.getPosx(), dialogo.getPosy(), dialogo.getWidth(), dialogo.getHeight());
 			g.setColor(dialogo.getColorLine());

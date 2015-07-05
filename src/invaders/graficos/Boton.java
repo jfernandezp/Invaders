@@ -13,6 +13,10 @@ public class Boton extends Cuadro{
 			this.color = Color.WHITE;
 			this.colorLine = Color.RED;
 			this.colorText = Color.BLACK;
+		} else {
+			this.color = new Color(31,31,31);
+			this.colorLine = Color.RED;
+			this.colorText = Color.WHITE;
 		}
 	}
 }

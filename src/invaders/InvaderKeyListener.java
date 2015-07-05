@@ -20,7 +20,6 @@ public class InvaderKeyListener implements KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-		System.out.println("GAME"+e.getKeyCode());
         if (e.getKeyCode() == 37 && !estado.getPausa() && !estado.getFinJuego() ){
         	controlador.moverIzquierda();
         } else if ( e.getKeyCode() == 39 && !estado.getPausa() && !estado.getFinJuego()){

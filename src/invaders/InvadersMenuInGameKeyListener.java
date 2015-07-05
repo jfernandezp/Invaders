@@ -10,7 +10,6 @@ public class InvadersMenuInGameKeyListener implements KeyListener {
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("MENU"+e.getKeyCode());
 		if ((e.getKeyCode() == 80) || (e.getKeyCode() == 19)){
 			controlador.pulsoPausa();
 		} else if (e.getKeyCode() == 71){ // Guardar
