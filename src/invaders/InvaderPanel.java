@@ -518,12 +518,20 @@ public class InvaderPanel extends JPanel {
   
         //Disparo sobre una estructura al azar.
         if (ciclosDisparos == cicloEstructura){
-            candidatosDisparos = disparoEstructura(candidatosDisparos);
+        	 try {
+        		 candidatosDisparos = disparoEstructura(candidatosDisparos);
+        	 } catch (IndexOutOfBoundsException e){
+                 //
+             }
         }
           
         //Disparo sobre un lugar al azar.
         if (ciclosDisparos == cicloAleatorio){
-            candidatosDisparos = disparoAzar(candidatosDisparos);
+        	try {
+        		candidatosDisparos = disparoAzar(candidatosDisparos);
+        	} catch (IndexOutOfBoundsException e){
+                //
+            }
         }
           
         if (ciclosDisparos >= cicloFin){
