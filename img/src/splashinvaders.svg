@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="700"
+   height="500"
+   id="svg3801"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="splashinvaders.svg"
+   inkscape:export-filename="E:\Dropbox\java\Invaders\img\splashinvaders.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs3803" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="306.27293"
+     inkscape:cy="282.40476"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="706"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3806">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-552.36218)">
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       id="rect2989"
+       width="700"
+       height="500"
+       x="0"
+       y="552.36218" />
+    <text
+       xml:space="preserve"
+       style="font-size:23.10396576px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Montserrat Extra Bold;-inkscape-font-specification:Montserrat Extra Bold"
+       x="348.28159"
+       y="832.88672"
+       id="text2985"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2987"
+         x="348.28159"
+         y="832.88672"
+         style="font-size:83.17427826px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Montserrat;-inkscape-font-specification:Montserrat">Invaders</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Montserrat Extra Bold;-inkscape-font-specification:Montserrat Extra Bold"
+       x="254.00302"
+       y="754.04694"
+       id="text3759"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3761"
+         x="254.00302"
+         y="754.04694"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Montserrat Light;-inkscape-font-specification:'Montserrat Light, Light'">jfernandezpe presenta:</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Montserrat Extra Bold;-inkscape-font-specification:Montserrat Extra Bold"
+       x="468.45734"
+       y="997.13818"
+       id="text3759-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3761-7"
+         x="468.45734"
+         y="997.13818"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Montserrat Light;-inkscape-font-specification:'Montserrat Light, Light'">Invaders v 0.3</tspan></text>
+  </g>
+</svg>

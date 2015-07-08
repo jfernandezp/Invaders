@@ -1,4 +1,4 @@
-package invaders;
+package invaders.objetos;
  
 import java.awt.Color;
 import java.awt.Graphics;

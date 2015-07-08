@@ -1,48 +1,98 @@
 package guardados;
 
+import invaders.estado.EstadoDefecto;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
 public class Cargar {
-	static String jugador;
-	private static int nivel;
-	private static int vidas;
-	private static int maxVidas;
-	private static int velocidad;
-	private static int puntos;
-	private static int disparoCercano;
-	private static int disparoEstructura;
-	private static int disparoAzar;
+	String jugador;
+	private int nivel;
+	private int vidas;
+	private int maxVidas;
+	private int velocidad;
+	private int puntos;
+	private int disparoCercano;
+	private int disparoEstructura;
+	private int disparoAzar;
+	private JSONObject jsonObject;
 	
-	public Cargar(String fichero) {
-		jugador = "Invaders";
-		setNivel(1);
-		setVidas(3);
-		setMaxVidas(6);
-		setVelocidad(10);
-		setDisparoCercano(10);
-		setDisparoEstructura(20);
-		setDisparoAzar(30);
-				
+	Cargar(){
+		valoresPorDefecto();
+	}
+
+	public Cargar(File fichero) {
+		this();
 		iniciarCarga(fichero);
 	}
-	public static void iniciarCarga(String fichero){
+	
+	
+	public Cargar(String fichero) {
+		this();
+		iniciarCarga(fichero);
+	}
+	
+	private void valoresPorDefecto() {
+		EstadoDefecto estadoDefecto = new EstadoDefecto();
+		jugador = "Invaders";
+		setNivel(estadoDefecto.getNivel());
+		setVidas(estadoDefecto.getVidas());
+		setMaxVidas(estadoDefecto.getMaxVidas());
+		setVelocidad(estadoDefecto.getVelocidad());
+		setDisparoCercano(estadoDefecto.getDisparoCercano());
+		setDisparoEstructura(estadoDefecto.getDisparoEstructura());
+		setDisparoAzar(estadoDefecto.getDisparoAzar());
+	}
+	
+	public void iniciarCarga(String fichero) {
+		JSONParser parser = new JSONParser();
+		
+		try { 	 
+			Object obj = parser.parse(new FileReader(fichero));
+	 
+			jsonObject = (JSONObject) obj;
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado. Cargando datos por defecto");
+		} catch (IOException e) {
+			System.out.println("Error de entrada o salida. Cargando datos por defecto");
+		} catch (ParseException e) {
+			System.out.println("Error al interpretar el fichero. Cargando datos por defecto");
+		}
+		
+		obtenerDatosFichero();		
+	}
+
+	public void iniciarCarga(File fichero){
 		JSONParser parser = new JSONParser();
 		try {
-			 
-			Object obj = parser.parse(new FileReader("niveles/"+fichero));
-	 
-			JSONObject jsonObject = (JSONObject) obj;
-	 
+			try {			 
+				Object obj = parser.parse(new FileReader(fichero));
+		 
+				jsonObject = (JSONObject) obj;
+			} catch (FileNotFoundException e) {
+				System.out.println("Fichero no encontrado. Cargando datos por defecto");
+			} catch (IOException e) {
+				System.out.println("Error de entrada o salida. Cargando datos por defecto");
+			} catch (ParseException e) {
+				System.out.println("Error al interpretar el fichero. Cargando datos por defecto");
+			}
+			obtenerDatosFichero();	
+		} catch (NullPointerException e){
 			
+		}
+		
+			 
+    }
+	
+	private void obtenerDatosFichero(){
+		try{
 			jugador = (String) jsonObject.get("jugador");
 			nivel =  Integer.parseInt((String) jsonObject.get("nivel"));
 			vidas = Integer.parseInt((String)  jsonObject.get("vidas"));
@@ -51,58 +101,53 @@ public class Cargar {
 			velocidad = Integer.parseInt((String)  jsonObject.get("velocidad"));
 			disparoCercano = Integer.parseInt((String)  jsonObject.get("disparoCercano"));
 			disparoEstructura = Integer.parseInt((String)  jsonObject.get("disparoEstructura"));
-			disparoAzar = Integer.parseInt((String)  jsonObject.get("disparoAzar"));	
-
-		} catch (FileNotFoundException e) {
-			System.out.println("Fichero no encontrado. Cargando datos por defecto");
-		} catch (IOException e) {
-			System.out.println("Error de entrada o salida. Cargando datos por defecto");
-		} catch (ParseException e) {
-			System.out.println("Error al interpretar el fichero. Cargando datos por defecto");
+			disparoAzar = Integer.parseInt((String)  jsonObject.get("disparoAzar"));
+		} catch (NullPointerException e){
+			
 		}
-	 
-     }
-	public static int getVidas() {
+	}
+	
+	public int getVidas() {
 		return vidas;
 	}
-	public static void setVidas(int vidas) {
-		Cargar.vidas = vidas;
+	public void setVidas(int vidas) {
+		this.vidas = vidas;
 	}
-	public static int getDisparoAzar() {
+	public int getDisparoAzar() {
 		return disparoAzar;
 	}
-	public static void setDisparoAzar(int disparoAzar) {
-		Cargar.disparoAzar = disparoAzar;
+	public void setDisparoAzar(int disparoAzar) {
+		this.disparoAzar = disparoAzar;
 	}
-	public static int getNivel() {
+	public int getNivel() {
 		return nivel;
 	}
-	public static void setNivel(int nivel) {
-		Cargar.nivel = nivel;
+	public void setNivel(int nivel) {
+		this.nivel = nivel;
 	}
-	public static int getVelocidad() {
+	public int getVelocidad() {
 		return velocidad;
 	}
-	public static void setVelocidad(int velocidad) {
-		Cargar.velocidad = velocidad;
+	public void setVelocidad(int velocidad) {
+		this.velocidad = velocidad;
 	}
-	public static int getDisparoEstructura() {
+	public int getDisparoEstructura() {
 		return disparoEstructura;
 	}
-	public static void setDisparoEstructura(int disparoEstructura) {
-		Cargar.disparoEstructura = disparoEstructura;
+	public void setDisparoEstructura(int disparoEstructura) {
+		this.disparoEstructura = disparoEstructura;
 	}
-	public static int getMaxVidas() {
+	public int getMaxVidas() {
 		return maxVidas;
 	}
-	public static void setMaxVidas(int maxVidas) {
-		Cargar.maxVidas = maxVidas;
+	public void setMaxVidas(int maxVidas) {
+		this.maxVidas = maxVidas;
 	}
-	public static int getDisparoCercano() {
+	public int getDisparoCercano() {
 		return disparoCercano;
 	}
-	public static void setDisparoCercano(int disparoCercano) {
-		Cargar.disparoCercano = disparoCercano;
+	public void setDisparoCercano(int disparoCercano) {
+		this.disparoCercano = disparoCercano;
 	}
 	public int getPuntos() {
 		return puntos;

@@ -1,22 +1,24 @@
 package invaders;
    
+import guardados.Guardar;
+import invaders.estado.Estado;
+import invaders.objetos.Atacante;
+import invaders.objetos.Disparo;
+import invaders.objetos.Estructura;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
    
    
-public class InvaderPanel extends JPanel implements ActionListener {
+public class InvaderPanel extends JPanel {
     /**
      * 
      */
@@ -24,7 +26,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
     
     public Estado estado; 
     
-    public int margenSuperior = 30;
+    public int margenSuperior = 130;
     
     public int defensax;
     public int defensay;
@@ -45,7 +47,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
     int ciclos = 0;
     int ciclosDisparos = 0;
     int limiteiy = (desplazamientoyFila * 12)  + ataqueiy;
-    int limitey = limiteiy;
+    public int limitey = limiteiy;
     private Atacante listaAtacantes[] = new Atacante[60];
 
     Graphics g2;
@@ -62,19 +64,32 @@ public class InvaderPanel extends JPanel implements ActionListener {
     ArrayList<Disparo> disparos = new ArrayList<Disparo>();
     ArrayList<Disparo> disparosAtacantes = new ArrayList<Disparo>();
     ArrayList<Estructura> listaEstructuras = new ArrayList<Estructura>();
+
+	private MenuInGame menu;
     
     private static Random r = new Random();
+    
+	private boolean salir;
+	
+	private InvadersMenuInGameKeyListener listenerMenuIngame;
+	private InvaderKeyListener listener;
+
+	private boolean pierdeVida = false;
+
+	private int tiempoAvisos = 1000;
       
+
     public InvaderPanel(final int ventanatx, int ventanaty, Estado estado){
     	
     	this.estado = estado;
     	this.estado.setLimiteY(limitey);
     	this.estado.setPausa(true);
+    	salir = false;
     	    	
         defensatx=40;
         defensaty=20;
         defensax = 350 - (defensatx/2);
-        defensay = 470- defensaty;
+        defensay = margenSuperior + 440- defensaty;
         ataqueLimitex = ataquex * 2;
         this.ventanatx = ventanatx;
         this.ventanaty = ventanaty;
@@ -83,90 +98,114 @@ public class InvaderPanel extends JPanel implements ActionListener {
         posyDD = defensay - yDD -4;
            
         setBackground(Color.BLACK);
-      
+        //Menu
+        menu = new MenuInGame(this, ventanatx, ventanaty);
+
+        menu.pulsoPausa(estado.getPausa());
+        listenerMenuIngame = new InvadersMenuInGameKeyListener(this);
+        addKeyListener(listenerMenuIngame);
    
-        /******************************************/
-        KeyListener listener = new KeyListener(){
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int nPosicion;
-                if (e.getKeyCode() == 37 && !estado.getPausa() && !estado.getFinJuego() ){
-                	nPosicion = defensax - velocidadDefensa;
-                    if (nPosicion < 0) {
-                        defensax = 0;
-                    } else {
-                        defensax = nPosicion;
-                    }
-                } else if ( e.getKeyCode() == 39 && !estado.getPausa() && !estado.getFinJuego()){
-                    nPosicion = defensax + velocidadDefensa;
-                    int limite = ventanatx - margenVentana - (defensatx );
-                    if (nPosicion > limite) {
-                        defensax = limite;
-                    } else {
-                        defensax = nPosicion;
-                    }
-                } else if ((e.getKeyCode() == 80) || (e.getKeyCode() == 19) ){
-                    if (estado.getPausa()) {
-                        estado.setPausa(false);
-                    } else {
-                    	estado.setPausa(true);
-                    }
-                }
-            }
-   
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == 32){
-                    int posx = defensax + defensatx/2 - xDD / 2;
-                    disparos.add(new Disparo(true, posx, posyDD, xDD, yDD));
-                } 
-            }
-        };
+        //Listener
+        listener = new InvaderKeyListener(this,this.estado);    
         addKeyListener(listener);
-           
-           
-        /**************************************/    
-           
-        //listen to key presses
         setFocusable(true);
-       // addKeyListener(this);
-   
-        //call step() 60 fps
-        Timer timer = new Timer(1000 / estado.getVelocidad() , this);
-        timer.start();
+        this.setVisible(true);
     }
     
+    protected void moverIzquierda(){
+    	int nPosicion = defensax - velocidadDefensa;
+        if (nPosicion < 0) {
+            defensax = 0;
+        } else {
+            defensax = nPosicion;
+        }
+    	
+    }
+    
+    protected void moverDerecha(){
+        int nPosicion = defensax + velocidadDefensa;
+        int limite = ventanatx - margenVentana - (defensatx );
+        if (nPosicion > limite) {
+            defensax = limite;
+        } else {
+            defensax = nPosicion;
+        }    	
+    }
+    
+    protected void pulsoPausa(){
+    	boolean pausa = true;
+        if (estado.getPausa()) {
+            pausa = false;
+        } 
+        estado.setPausa(pausa);
+        menu.pulsoPausa(pausa);
+    }
+    
+    protected void pulsoGuardar(){
+    	if(!estado.getPausa()){
+	    	pulsoPausa();
+	    	menu.pulsoGuardar();
+    	} else {
+    		menu.pulsoGuardar();
+    	}
+    }
+    
+    protected void pulsoMenu(){
+    	menu.pulsoMenu();
+    }
+
+	public void pulsoEscape() {
+		menu.pulsoEscape();
+	}
+
+	public void pulsoEnter() {
+		menu.pulsoEnter();		
+	}
+	
+	
+    protected void lanzoDisparo(){
+    	 int posx = defensax + defensatx/2 - xDD / 2;
+         disparos.add(new Disparo(true, posx, posyDD, xDD, yDD));
+    }
 
 
 	public void setEstado(int nivel, int vidas, int maxVidas, int velocidad,
-			int disparoCercano, int disparoEstructura, int disparoAzar) {
-		// TODO Apéndice de método generado automáticamente
-		
+			int disparoCercano, int disparoEstructura, int disparoAzar) {		
 	}
       
     //Bucle del juego:
-    public void actionPerformed(ActionEvent e) {
-        if ((!estado.getPausa()) && (!estado.getFinJuego())){
+    public void bucle() {
+    	while(!estado.getFinJuego() && !this.salir){
+	        try {
+				Thread.sleep(1000/estado.getVelocidad());
+			} catch (InterruptedException e) {
+				//
+			}
+	        
+	        super.repaint();
+	        
+        	perdidaVida();
         	
-        	comprobarEstado();
-        	
-            intentarBajarFila(1); 
-              
-            desplazamientoHorizontal();
-              
-            comprobarColisionesDisparosAtaque();
-              
-            comprobarColisionesDisparosDefensa();
-           
-            Ataques();
+	        if (!estado.getPausa()){	
+	        	
+	        	comprobarEstado();
+	        	
+	            intentarBajarFila(1); 
+	              
+	            desplazamientoHorizontal();
+	              
+	            comprobarColisionesDisparosAtaque();
+	              
+	            comprobarColisionesDisparosDefensa();
+	           
+	            Ataques();
+	        }
         }
-                  
-        //System.out.println("_________________________________________________");
-          
-        repaint();  
+    	menu.finJuego();
+    	try {
+			Thread.sleep(tiempoAvisos);
+		} catch (InterruptedException e) {
+		}
     }
     
     //Comprueba el estado del juego;
@@ -185,7 +224,8 @@ public class InvaderPanel extends JPanel implements ActionListener {
     }
   
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
+		super.paintComponent(g);
+        
         g.setColor(Color.WHITE);
         
         Graphics2D g2=(Graphics2D) g;
@@ -200,13 +240,14 @@ public class InvaderPanel extends JPanel implements ActionListener {
         pintarDisparosAtacantes(g);
 
         pintarDisparosDefensa(g);
-               
+        
+        menu.pintarMenu(g);
      }
   
     private void pintarLetras(Graphics2D g2){
     	Font f = new  Font ("SansSerif", Font.BOLD, 12); 
         g2.setFont(f);
-        g2.drawString("Tienes "+estado.getVidas()+" vidas, "+estado.getPuntos()+" puntos y estás en el "+estado.getNivel()+"º nivel",  30,  20);
+        g2.drawString("Tienes "+estado.getVidas()+" vidas, "+estado.getPuntos()+" puntos y estás en el "+estado.getNivel()+"º nivel",  30,  margenSuperior - 10);
     }
     
     private void pintarEstructuras(Graphics g) {
@@ -226,7 +267,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
 	        int tex = 25; //tamaño estructura en x;
 	        int tey = 15; //tamaño estructura en y;
 	        int eposx; //Posicion en x de la estructura
-	        int eposyi = 335; //Posicion en y de la estructura  (inicial)
+	        int eposyi = margenSuperior + 305; //Posicion en y de la estructura  (inicial)
 	        int eposy; //Posicion en y de la estructura (en la estructura) 
 	 
 	         
@@ -361,7 +402,7 @@ public class InvaderPanel extends JPanel implements ActionListener {
 	                if ((disparo.getposY() >= defensay) && ((disparo.getposY() <= defensay + defensaty)) ) {
 	                    hayColision = disparo.compruebaColisionX(defensax,defensatx,true);
 	                    if (hayColision){
-	                        estado.pierdeVida(1);
+	                    	pierdeVida(1);
 	                        tocanDefensa = true;
 	                        eliminarElemento = true;	                        
 	                    }
@@ -478,12 +519,20 @@ public class InvaderPanel extends JPanel implements ActionListener {
   
         //Disparo sobre una estructura al azar.
         if (ciclosDisparos == cicloEstructura){
-            candidatosDisparos = disparoEstructura(candidatosDisparos);
+        	 try {
+        		 candidatosDisparos = disparoEstructura(candidatosDisparos);
+        	 } catch (IndexOutOfBoundsException e){
+                 //
+             }
         }
           
         //Disparo sobre un lugar al azar.
         if (ciclosDisparos == cicloAleatorio){
-            candidatosDisparos = disparoAzar(candidatosDisparos);
+        	try {
+        		candidatosDisparos = disparoAzar(candidatosDisparos);
+        	} catch (IndexOutOfBoundsException e){
+                //
+            }
         }
           
         if (ciclosDisparos >= cicloFin){
@@ -576,4 +625,43 @@ public class InvaderPanel extends JPanel implements ActionListener {
   
         return disparo;
     }
+    
+    public void pierdeVida(int vidas){
+    	pierdeVida = true;
+        estado.pierdeVida(vidas);
+        estado.setPausa(true);
+		menu.pierdeVida(true);
+    }
+    
+    public void perdidaVida(){
+    	if (pierdeVida){
+    		pierdeVida = false;
+    		try {
+				Thread.sleep(tiempoAvisos );
+			} catch (InterruptedException e) {
+			}
+    		estado.setPausa(false);
+    	} else {
+    		menu.pierdeVida(false);
+    	}
+    }
+
+	public void salir() {
+		salir = true;
+	}
+
+	public void quitarLisener() {
+		removeKeyListener(listener);
+		removeKeyListener(listenerMenuIngame);
+	}
+
+	public void setPausa(boolean pausa) {
+		estado.setPausa(pausa);		
+	}
+
+	public void guardarPartida(File fichero) {
+		try{
+			new Guardar(fichero,estado.getEstadoAnterior());
+		} catch (Exception e){}
+	}
 }
