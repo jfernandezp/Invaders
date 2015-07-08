@@ -142,9 +142,12 @@ public class InvaderPanel extends JPanel {
     }
     
     protected void pulsoGuardar(){
-    	pulsoPausa();
-    	menu.pulsoGuardar();
-    	pulsoPausa();
+    	if(!estado.getPausa()){
+	    	pulsoPausa();
+	    	menu.pulsoGuardar();
+    	} else {
+    		menu.pulsoGuardar();
+    	}
     }
     
     protected void pulsoMenu(){
