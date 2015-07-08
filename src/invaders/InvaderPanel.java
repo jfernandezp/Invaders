@@ -183,9 +183,10 @@ public class InvaderPanel extends JPanel {
 			}
 	        
 	        super.repaint();
-	        	        
-	        if (!estado.getPausa()){	  
-	        	perdidaVida();
+	        
+        	perdidaVida();
+        	
+	        if (!estado.getPausa()){	
 	        	
 	        	comprobarEstado();
 	        	
@@ -628,6 +629,7 @@ public class InvaderPanel extends JPanel {
     public void pierdeVida(int vidas){
     	pierdeVida = true;
         estado.pierdeVida(vidas);
+        estado.setPausa(true);
 		menu.pierdeVida(true);
     }
     
@@ -638,6 +640,7 @@ public class InvaderPanel extends JPanel {
 				Thread.sleep(tiempoAvisos );
 			} catch (InterruptedException e) {
 			}
+    		estado.setPausa(false);
     	} else {
     		menu.pierdeVida(false);
     	}
