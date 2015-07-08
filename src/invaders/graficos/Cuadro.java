@@ -71,5 +71,9 @@ public class Cuadro {
 		} else {
 			setActivo (true);
 		}
+	}
+
+	public void setTexto(String string) {
+		texto = string;		
 	}	
 }

@@ -20,6 +20,10 @@ public class MenuInGame {
 	private boolean pierdeVida;
 
 	private Cuadro btnPierdeVida;
+
+	private boolean finJuego;
+
+	private Cuadro btnFinJuego;
 	MenuInGame(InvaderPanel controladorW, int ventanatx, int ventanaty){
 
 	    	//Pausa = 0
@@ -69,6 +73,9 @@ public class MenuInGame {
 		}
 		if(pierdeVida){
 			pintarElemento(g,g2,btnPierdeVida, 20, 20);
+		}
+		if(finJuego){
+			pintarElemento(g,g2,btnFinJuego, 20, 20);			
 		}
 	}
 	
@@ -145,5 +152,11 @@ public class MenuInGame {
 
 	public void pierdeVida(boolean b) {
 		pierdeVida = b;
+	}
+
+	public void finJuego() {
+		finJuego = true;
+		btnFinJuego = btnPierdeVida;
+		btnFinJuego.setTexto("Fin del juego");
 	}
 }

@@ -75,6 +75,8 @@ public class InvaderPanel extends JPanel {
 	private InvaderKeyListener listener;
 
 	private boolean pierdeVida = false;
+
+	private int tiempoAvisos = 1000;
       
 
     public InvaderPanel(final int ventanatx, int ventanaty, Estado estado){
@@ -195,6 +197,11 @@ public class InvaderPanel extends JPanel {
 	            Ataques();
 	        }
         }
+    	menu.finJuego();
+    	try {
+			Thread.sleep(tiempoAvisos);
+		} catch (InterruptedException e) {
+		}
     }
     
     //Comprueba el estado del juego;
@@ -617,7 +624,7 @@ public class InvaderPanel extends JPanel {
     	if (pierdeVida){
     		pierdeVida = false;
     		try {
-				Thread.sleep(1000);
+				Thread.sleep(tiempoAvisos );
 			} catch (InterruptedException e) {
 			}
     	} else {
