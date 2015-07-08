@@ -19,7 +19,7 @@ public class MenuPrincipal extends PanelMenu{
 		super(ventanatx,ventanaty,frame,menuControlador);
 		numBotones = 4;
 		botones = new Boton[numBotones];
-		String[] auxBtnText = {"Nuevo juego", "Personalizar partida", "Créditos", "Salir"};
+		String[] auxBtnText = {"Nuevo juego", "Cargar partida", "Créditos", "Salir"};
 		inicializarBotones(auxBtnText);		
 	}
 	
