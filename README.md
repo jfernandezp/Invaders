@@ -1,6 +1,8 @@
 # Invaders
 Juego sencillo de Invasores hecho en java en un entorno educativo.
 
+Versión v0.3
+
 ## Requisitos
 Para compilar el código fuente, son necesarias las librerías Utils de jfernnadezpe y json-simple:
 
