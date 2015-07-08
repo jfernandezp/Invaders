@@ -29,7 +29,7 @@ public class InvaderKeyListener implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == 32){
+        if (e.getKeyCode() == 32 && !estado.getPausa()){
            controlador.lanzoDisparo();
         } 
     }
