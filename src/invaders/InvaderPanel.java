@@ -73,6 +73,8 @@ public class InvaderPanel extends JPanel {
 	
 	private InvadersMenuInGameKeyListener listenerMenuIngame;
 	private InvaderKeyListener listener;
+
+	private boolean pierdeVida = false;
       
 
     public InvaderPanel(final int ventanatx, int ventanaty, Estado estado){
@@ -176,8 +178,10 @@ public class InvaderPanel extends JPanel {
 			}
 	        
 	        super.repaint();
-	        
-	        if (!estado.getPausa()){	        	
+	        	        
+	        if (!estado.getPausa()){	  
+	        	perdidaVida();
+	        	
 	        	comprobarEstado();
 	        	
 	            intentarBajarFila(1); 
@@ -387,7 +391,7 @@ public class InvaderPanel extends JPanel {
 	                if ((disparo.getposY() >= defensay) && ((disparo.getposY() <= defensay + defensaty)) ) {
 	                    hayColision = disparo.compruebaColisionX(defensax,defensatx,true);
 	                    if (hayColision){
-	                        estado.pierdeVida(1);
+	                    	pierdeVida(1);
 	                        tocanDefensa = true;
 	                        eliminarElemento = true;	                        
 	                    }
@@ -601,6 +605,24 @@ public class InvaderPanel extends JPanel {
         Disparo disparo = new Disparo(false, (atacante.getPosX() + (atacante.gettx() / 2) - (xDisparo /2)), atacante.getPosY(), xDisparo, yDisparo);
   
         return disparo;
+    }
+    
+    public void pierdeVida(int vidas){
+    	pierdeVida = true;
+        estado.pierdeVida(vidas);
+		menu.pierdeVida(true);
+    }
+    
+    public void perdidaVida(){
+    	if (pierdeVida){
+    		pierdeVida = false;
+    		try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
+    	} else {
+    		menu.pierdeVida(false);
+    	}
     }
 
 	public void salir() {

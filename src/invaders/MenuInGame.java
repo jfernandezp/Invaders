@@ -1,6 +1,7 @@
 package invaders;
 
 import invaders.graficos.Boton;
+import invaders.graficos.Cuadro;
 import invaders.graficos.Dialogo;
 
 import java.awt.Font;
@@ -11,11 +12,15 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 public class MenuInGame {
-	Boton[] elementos;
+	Cuadro[] elementos;
 
-	private Dialogo dialogo;
+	private Cuadro dialogo;
 	private InvaderPanel controlador;
-	MenuInGame(InvaderPanel controlador, int ventanatx, int ventanaty){
+
+	private boolean pierdeVida;
+
+	private Cuadro btnPierdeVida;
+	MenuInGame(InvaderPanel controladorW, int ventanatx, int ventanaty){
 
 	    	//Pausa = 0
 			//Guardar = 1
@@ -26,7 +31,7 @@ public class MenuInGame {
 	    	int numeroBotones = 3;
 	    	tx = 130;
 	    	ty = 30;
-	    	this.controlador = controlador;
+	    	this.controlador = controladorW;
 	    	elementos = new Boton[numeroBotones];
 	    	String[] textos = {"Pausa/Iniciar (P)", "Guardar (G)", "Ir al menú (M)"};
 	    	for (int i = 0; i < elementos.length; i++){
@@ -40,6 +45,11 @@ public class MenuInGame {
 	    	String textoDialogo = "¿De verdad quieres salir del juego e ir al menú?";
 	    	dialogo = new Dialogo(ventanatx / 2 - widthDialogo / 2, ventanaty / 2 - heightDialogo / 2,
 	    			widthDialogo, heightDialogo, textoDialogo);
+	    	int widthVidaPerdida = 230;
+	    	int heightVidaPerdida = 40;
+	    	String textoVidaPerdida = "Un disparo te ha alcanzado";
+	    	btnPierdeVida = new Boton(ventanatx / 2 - widthVidaPerdida / 2, ventanaty / 2 - heightVidaPerdida / 2,
+	    			widthVidaPerdida, heightVidaPerdida, textoVidaPerdida);
 	}
 
 	public void pintarMenu(Graphics g) {
@@ -48,30 +58,28 @@ public class MenuInGame {
 		Font f = new  Font ("SansSerif", Font.BOLD, fontSize); 
         g2.setFont(f);
 		for (int i = 0; i < elementos.length; i++){
-			g.setColor(elementos[i].getColor());
-			g.fillRect(elementos[i].getPosx(),elementos[i].getPosy(),elementos[i].getWidth(),elementos[i].getHeight());
-			g.setColor(elementos[i].getColorLine());
-			g.drawRect(elementos[i].getPosx(),elementos[i].getPosy(),elementos[i].getWidth(),elementos[i].getHeight());
-			g.setColor(elementos[i].getColorText());
-	        g2.drawString(elementos[i].getTexto(), elementos[i].getPosx() + 10, elementos[i].getPosy() + 20);
+			pintarElemento(g,g2,elementos[i],10,20);
 		}
 		if (dialogo.isActivo()){
-			g.setColor(dialogo.getColor());
-			g.fillRect(dialogo.getPosx(), dialogo.getPosy(), dialogo.getWidth(), dialogo.getHeight());
-			g.setColor(dialogo.getColorLine());
-			g.drawRect(dialogo.getPosx(),dialogo.getPosy(),dialogo.getWidth(),dialogo.getHeight());
-			g.setColor(dialogo.getColorText());
-	        g2.drawString(dialogo.getTexto(), dialogo.getPosx() + 20, dialogo.getPosy() + 20);
-	        Boton[] botones = dialogo.getBotones();
+			pintarElemento(g,g2,dialogo,20,20);
+	        Boton[] botones = ((Dialogo)dialogo).getBotones();
 	        for (int i = 0; i < botones.length; i++){
-				g.setColor(botones[i].getColor());
-				g.fillRect(botones[i].getPosx(),botones[i].getPosy(),botones[i].getWidth(),botones[i].getHeight());
-				g.setColor(botones[i].getColorLine());
-				g.drawRect(botones[i].getPosx(),botones[i].getPosy(),botones[i].getWidth(),botones[i].getHeight());
-				g.setColor(botones[i].getColorText());
-		        g2.drawString(botones[i].getTexto(), botones[i].getPosx() + 10, botones[i].getPosy() + 20);
+	        	pintarElemento(g,g2,botones[i],10,20);
 	        }
 		}
+		if(pierdeVida){
+			pintarElemento(g,g2,btnPierdeVida, 20, 20);
+		}
+	}
+	
+	private void pintarElemento(Graphics g, Graphics2D g2,
+			Cuadro cuadrado, int i, int j) {
+		g.setColor(cuadrado.getColor());
+		g.fillRect(cuadrado.getPosx(), cuadrado.getPosy(), cuadrado.getWidth(), cuadrado.getHeight());
+		g.setColor(cuadrado.getColorLine());
+		g.drawRect(cuadrado.getPosx(),cuadrado.getPosy(),cuadrado.getWidth(),cuadrado.getHeight());
+		g.setColor(cuadrado.getColorText());
+        g2.drawString(cuadrado.getTexto(), cuadrado.getPosx() + i, cuadrado.getPosy() + j);		
 	}
 	
 	private int buscarActivo(){
@@ -133,5 +141,9 @@ public class MenuInGame {
 			activo = 0;
 		}
 		return activo;
+	}
+
+	public void pierdeVida(boolean b) {
+		pierdeVida = b;
 	}
 }
