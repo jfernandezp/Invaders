@@ -14,8 +14,8 @@ Ejecutar desde el terminal el archivo .jar ejecutable
 
 ### Controles
 ####En el menú:
-Utiliza las teclas arriba y abajo para desplazarte
-Utiliza la tecla enter para selecionar una opción
+Utiliza las teclas arriba y abajo para desplazarte. \n
+Utiliza la tecla enter para selecionar una opción. \n
 ####En el juego
 Mover tu defensor a la izquierda: fecha a la izquierda.
 Mover tu defensor a la derecha: flecha a la derecha.
